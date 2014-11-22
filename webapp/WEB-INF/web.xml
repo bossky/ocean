@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<welcome-file-list>
+		<welcome-file>index.jspx</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+	</welcome-file-list>
+ 		<error-page>   
+      	<error-code>404</error-code>   
+      	<location>/nofind.jspx</location>  
+        </error-page> 
+      	<error-page>   
+      	<error-code>403</error-code>
+		<location>/nofind.jspx</location>
+		</error-page>
+		<error-page>
+		<error-code>500</error-code>
+		<location>/nofind.jspx</location>
+		</error-page>
+		<error-page>
+		<error-code>503</error-code>
+		<location>/nofind.jspx</location>
+		</error-page> 
+   		<error-page>
+		<error-code>505</error-code>
+		<location>/nofind.jspx</location>
+		</error-page> 
+	<!-- 禁止直接访问jsp -->
+	<filter>
+		<filter-name>disableJSP</filter-name>
+		<filter-class>com.ourlinc.web.RewriteFilter</filter-class>
+		<init-param>
+			<param-name>rules</param-name>
+			<param-value>\/*\.jsp$ /nofind.jspx</param-value>
+		</init-param>
+	</filter>
+	<!-- 登陆验证过滤器 -->
+	<filter>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.ourlinc.ocean.filter.LoginFilter</filter-class>
+	</filter>
+		
+	<filter-mapping>
+		<filter-name>disableJSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>/file/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-conf.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>*.jspx</url-pattern>
+	</servlet-mapping>
+</web-app>

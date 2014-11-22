@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<bean id="S-IRVR"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/" p:suffix=".jsp" />
+	<!-- 规约所有进行扫描的类，以完成Bean创建和自动依赖注入的功能，使用依赖控制器类名字的惯例优先原则， 将URI映射到控制器 如：“/tour/index.jspx”对应“com.ourlinc.controller.TourController.index()” -->
+	<context:component-scan base-package="com.ourlinc.ocean.controller" />
+	
+		<bean id="S-CCHM"
+			class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+			<property name="caseSensitive" value="false" />
+		</bean>
+
+		<!-- 除了惯例优先原则，以下是特例的URI及控制器映射 -->
+		<bean id="S-SUHM"
+			class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+			<property name="mappings">
+				<value>
+					/*.*=homeController
+				</value>
+			</property>
+		</bean>
+
+		<!-- 业务数据集中器 -->
+		<bean id="dataHub" class="com.ourlinc.tern.support.SimpleDataHub"
+			scope="singleton" destroy-method="shutdown">
+			<constructor-arg index="0" value="test.db" />
+			<constructor-arg index="1"
+				value="user;label;theme;comments;reply;collect;praise;theme_doc;comments_doc" />
+
+			<property name="loggerPath" value="_logger" />
+			<property name="counterPath" value="_counter" />
+			<property name="serverId" value="255" />
+			<property name="versionJars">
+				<list>
+					<value>com.ourlinc.tern.support.SimpleDataHub</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="userService" class="com.ourlinc.ocean.user.impl.UserServiceImpl"
+			scope="singleton">
+			<constructor-arg index="0" ref="dataHub" />
+		</bean>
+		<bean id="themeService" class="com.ourlinc.ocean.theme.impl.ThemeServiceImpl"
+			scope="singleton">
+			<constructor-arg index="0" ref="dataHub" />
+		</bean>
+</beans>
