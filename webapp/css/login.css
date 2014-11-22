@@ -1,0 +1,103 @@
+@charset "utf-8";
+body{
+  position: relative;
+}
+.overlay{
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  z-index: 10;
+	  background-color: #000; 
+	  opacity:0.3;
+	  filter:alpha(opacity=30);
+	  display:none;
+}
+.login {
+    width: 320px;
+    height: 260px;
+    line-height: 20px;
+    position: fixed;
+    padding:0;
+    top: 50%; 
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -160px;
+    background-color: #FFF;
+    z-index: 11; 
+    box-shadow:0  5px  15px #333;
+    display:none;
+}
+.loginbox{
+	border:1px solid #AEAFB1;
+	width: 240px;
+	padding:0 20px;
+	margin:15px 20px 0 20px;
+}
+
+.username,.pass{
+	padding:11px 6px 11px 10px;
+	width: 200px;
+	height:14px;
+	line-height: 14px;
+	font-size: 14px;
+	border:none;
+}
+.userbox{
+	border-bottom: 1px solid #CCC;
+}
+
+.loginbox div{
+	height: 60px;
+	line-height: 60px;
+}
+.loginbox span{
+	background-image: url("../image/user.png");
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	
+}
+.icon-user {
+	background-position: 0 0;
+	width: 18px;
+	
+}
+.icon-pass {
+	background-position: -36px 0;
+	width: 16px;
+}
+
+#loginbtn{
+	margin-top:15px ;
+	width: 280px;
+	height:40px;
+	font-family: "microsoft yahei";
+	font-size: 20px;
+	background: #00A1CB;
+	border:none;
+	cursor: pointer;
+	color: #fff;
+}
+#loginbtn:hover{
+	background:#00B5E5;
+}
+
+.logintext{
+	height: 40px;
+	line-height: 40px;
+	background: #F7F7F7;
+	padding:0 20px;
+	border-bottom:1px solid #F2F2F2;
+
+}
+.close{
+	background-image: url("../image/user.png");
+	background-position: -68px 0;
+	width: 18px;
+	height: 18px;
+	margin-top: 10px;
+}
+
+.

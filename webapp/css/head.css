@@ -1,0 +1,29 @@
+@charset "utf-8";
+/*顶栏*/
+.topnav{
+	height:25px;
+	line-height:25px;
+	background:#F2F2F2;
+	border-bottom: 1px solid #CCC;
+}
+
+/*banner*/
+#banner{
+	height:80px;
+	width: 100%;
+	line-height: 90px
+}
+#banner h1 a{
+	color:#383838;
+	font-size:60px;
+}
+
+/*脚*/
+.foot{
+	text-align: center;	
+	height:40px;
+	line-height: 40px;
+	background: #353535;
+	color:#FFF;
+	width: 100%;
+}

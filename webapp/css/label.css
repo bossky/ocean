@@ -1,0 +1,75 @@
+
+
+.brick{
+	background:#FFF;
+	padding: 10px;
+}
+
+.brick a{
+	color: #FFF;
+	background-color: #7898CD;
+	padding:0px 10px;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	margin:5px;
+	border: 1px solid #071D41;
+	border-left: 2px solid #071D41;
+}
+.brick a:hover{
+	color:#FFF;
+	background:#383838;
+}
+
+/*.brick a:hover{
+	background:#505050;
+}*/
+.selected{
+	background:#000;
+}
+
+.tree{
+	padding: 10px 0;
+}
+.onetree{
+	margin: 0 15px 15px 0; 
+	background: #FFF;
+	float: left;
+	padding: 15px;
+}
+.onetree a{
+	display: inline-block;
+	padding:0px 10px;
+	height: 30px;
+	margin:5px 0 ;
+	line-height: 30px;
+	/*border:1px solid #CCC;*/
+	position: relative;
+}
+
+.child li{
+	border-left: 1px dashed #999999;
+	padding-left: 20px;
+	margin-left:30px;
+	position: relative;
+}
+
+.hxian{
+	position: absolute;
+	z-index: 2;
+	left:-20px;
+	top:-5px;
+	width: 16px;
+	height: 20px;
+	border-bottom: 1px dashed #999999;
+}
+
+.child li:last-child{
+	padding-left: 21px;
+	border: none;
+}
+.child li:last-child div{
+	left:-23px;
+	width: 18px;
+	border-left:1px dashed #999999; 
+}

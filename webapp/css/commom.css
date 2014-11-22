@@ -1,0 +1,281 @@
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+	font-size: 14px;
+	font-family: "microsoft yahei";
+	background: #F7F7F7;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a{
+	color:#0066CC;
+	text-decoration:none;
+}
+
+a:hover{
+	color:#FF881C;
+	}
+fieldset{
+	border:1px solid #7D98CF;	
+	padding:10px;
+}
+
+/*Çå¸¡¶¯*/
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+
+.comWidth{
+	width: 980px;
+	margin:0 auto;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.h30{
+	height:30px;
+}
+
+.h35{
+	height:35px;
+}
+.mgt{
+	margin-top:15px;
+}
+.mgt50{
+	margin-top:50px;
+}
+.mh400{
+	min-height: 400px;
+}
+.mh500{
+	min-height:500px;
+	}
+.mgauto{
+	margin:0 auto;
+}
+.page{
+	padding:15px 0;
+	text-align:center;
+}
+
+.failmsg{
+	padding:5px;
+	text-align:center;
+	color:red; 
+	font-size:16px;
+}
+
+.textcenter{
+	text-align:center;
+}
+.textleft{
+	text-align:left;
+}
+.textright{
+	text-align:right;
+}
+
+.hiddendiv{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.prompt {
+    	width:240px;
+    	height:30px;
+    	border:2px solid #8DEEEE;
+    	line-height: 20px;
+   	 	position: fixed;
+    	padding:10px;
+    	top: 50%; 
+    	left: 50%;
+    	text-align:center;
+    	line-height:30px;
+   	 	margin-top: -150px;
+    	margin-left: -160px;
+   	 	background-color: #FFF;
+    	z-index: 11; 
+    	box-shadow:0  5px  15px #333;
+    	display:none;
+}
+.color0{
+	color:#666666;
+	background:#FFF;
+	border:2px solid #666666;
+}
+.color1{
+	color:#00a1cb;
+	background:#FFF;
+	border:2px solid #00a1cb;
+}
+
+.color2{
+	color:#7db500;
+	background:#FFF;
+	border:2px solid #7db500;
+}
+.color3{
+	color:#f18d05;
+	background:#FFF;
+	border:2px solid #f18d05;
+}
+.color4{
+	color:#e54028;	
+	background:#FFF;
+	border:2px solid #e54028;
+}
+.color5{
+	color:#87318c;
+	background:#FFF;
+	border:2px solid #87318c;
+}
+
+.color0:hover{
+	color:#808080;
+	background:#FFF;
+	border:2px solid #808080;
+}
+.color1:hover{
+	color:#00C9FE;
+	background:#FFF;
+	border:2px solid #00C9FE;
+}
+
+.color2:hover{
+	color:#A0E800;
+	background:#FFF;
+	border:2px solid #A0E800;
+}
+.color3:hover{
+	color:#FBA42E;
+	background:#FFF;
+	border:2px solid #FBA42E;
+}
+.color4:hover{
+	color:#EB6855;
+	background:#FFF;
+	border:2px solid #EB6855;
+}
+.color5:hover{
+	color:#ab3eb2;
+	background:#FFF;
+	border:2px solid #ab3eb2;
+}
+
+
+.red{
+	font-weight:bold;
+	color:red;
+}
+.gray{
+	color:gray;
+	}
+
+.w120{
+	width:120px
+}
+.w230{
+	width:230px;
+}
+.w360{
+	width:360px;
+}
+
+.labelDiv{
+	border:2px solid #8DEEEE;
+	line-height: 20px;
+	position: fixed;
+	padding:10px;
+	top: 50%; 
+	left: 40%;
+	text-align:center;
+	line-height:30px;
+	margin-top: -150px;
+	margin-left: -160px;
+	background-color: #FFF;
+	z-index: 11; 
+	box-shadow:0  5px  15px #333;
+	display:none;
+	
+}
+
+.labelTable td{
+	width:150px;
+	border:5px solid #ffffff;
+	background-color:#FFF5EE;
+}
+
+.button{
+	padding:5px 20px;
+	border:1px solid #CCC;
+	background:#00A1CB;
+	color:#FFF;
+	cursor:pointer;
+}
+.button:hover{
+	background:#00B5EB;	
+}
+.input{
+	border:1px solid #ABADB3;
+	height:22px;
+	width:180px;
+	padding:1px 5px;
+	font-family:"microsoft yahei";
+}
+.sel{
+	height:26px;
+	font-family:'microsoft yahei';	
+}
+.textarea{
+	resize: none;
+	border:1px solid #ABADB3;
+	font-family:'microsoft yahei';	
+}

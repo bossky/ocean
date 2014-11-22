@@ -1,0 +1,53 @@
+@charset "utf-8";
+.otherinfo,.accountinfo{
+	padding:10px;
+	background: #FFF;
+}
+
+.otherinfo h3,.accountinfo h3{
+	height: 40px;
+	line-height: 40px;
+}
+
+.infotable tr{
+	height: 40px;
+	line-height: 40px;
+}
+
+.tdl{
+	width:10%;
+	text-align: right;	
+}
+
+.tdr{
+	width:30%;
+	text-align: left;
+}
+
+.signature{
+	vertical-align: middle;
+}
+.submit{
+	padding:10px 0;
+	text-align: center;
+}
+.updatepass{
+	display: inline-block;
+	font-size: 16px;
+	padding:5px 10px;	
+	border: 1px solid #C1C1C1;
+}
+
+.patab{
+	height:300px;
+	padding:50px 0; 
+}
+
+.passtable{
+
+	margin: 0 auto;
+}
+
+.subt{
+	text-align: center;
+}

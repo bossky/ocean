@@ -1,0 +1,163 @@
+@charset "utf-8";
+.cont_main{
+	border:1px solid #C1C1C1;
+	background: #FFF;
+	min-height: 500px;
+	width:978px;
+}
+
+.cont_title{
+	border-bottom: 1px dashed #CCC;
+	padding: 20px;
+}
+
+.cont_title h3{
+	font-size: 20px;
+	line-height: 1.5em;
+}
+.content{
+	padding: 10px 20px;
+	font-size: 16px;
+	text-indent: 2em;
+	line-height: 1.6em;
+	min-height: 500px;
+	border-bottom: 1px solid #CCC;
+	word-wrap:break-word;
+}
+
+.cont_author{
+	padding: 5px 0;
+}
+
+.cont_lab{
+	margin-top:5px;
+	display:inline-block;
+}
+.cont_lab a{
+	float: left;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	padding:0px 15px;
+	margin-top:10px;
+	margin-right:10px;
+	/*border: 1px solid #CCCCCC;*/
+}
+/*
+.cont_lab a:hover{
+	background: #505050;
+	color:#FFF;
+}
+*/
+
+/*评论*/
+.comment{
+	padding:10px 20px;
+}
+
+/*发表*/
+.publish{
+	width: 958px;
+	padding:10px;
+	min-height: 100px;
+	background: #FFF;
+	border: 1px solid #C1C1C1;
+}
+
+.cmt li{
+	padding:10px 0;
+	border-bottom: 1px dashed #C1C1C1;
+}
+.cmt li:last-child{
+	border-bottom: none;
+}
+
+
+.cmt_content{
+	text-indent: 2em;
+	padding:10px 0 0 20px;
+	line-height: 1.5em;
+	word-wrap:break-word;
+}
+
+.reply{
+	border: 1px solid #CCC;
+	margin-top:20px;
+	margin-left:40px;
+	padding:10px;
+	position: relative;	
+}
+.reply li{
+	border-bottom: 1px dashed #CCC;
+}
+.reply li:last-child{
+	border-bottom: none;
+}
+
+.reply p{
+	line-height: 1.5em;
+}
+.jt{
+	position: absolute;
+	left: 10px;
+	top:-8px;
+	z-index: 2;
+	width:18px;
+	height:18px;
+	background: url(../image/up.png) no-repeat left top;
+}
+
+.operate{
+	padding:20px;
+	font-size:1.6em;
+	border-bottom:1px solid #CCC;
+	line-height:20px;
+}
+.operate span:hover,.scz span:hover{
+	color:#FF5500;
+	}
+.icon_clt,.icon_zan,.icon_recover,.icon_shield{
+	background-image:url(../image/user.png);
+	background-repeat: no-repeat;
+	width: 18px;
+	height:18px;
+	margin-right:5px;
+	display: inline-block;
+}
+.icon_clt{
+	background-position: -136px 0px;
+}
+
+.icon_zan{
+	background-position: -102px 0;
+}
+.icon_shield {
+	background-position: -170px 0;
+	width: 18px;
+}
+.icon_recover{
+	background-position: -204px 0;
+	width: 18px;
+}
+
+.pub_text{
+	height:40px;
+	line-height:40px;
+}
+
+.pub_cancel{
+	margin-bottom:-2px;
+	cursor:pointer;	
+}
+
+.pub_replayman{
+	padding:0 5px;
+	height:30px;
+	line-height:30px;
+	display:inline-block;
+	background:#B0E3FF;
+	}
+.pub_color{
+	color:#787878;
+	}
+	

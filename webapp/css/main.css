@@ -1,0 +1,165 @@
+@charset "utf-8";
+
+/*标签列*/
+.labels{
+	width:200px;
+	border-bottom: none;
+	background: #fff;
+}
+.labs li{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border:1px solid #CCC;
+	border-bottom:none;
+	vertical-align: bottom;
+}
+.labs li:last-child{
+	border-bottom:1px solid #CCC;
+}
+.labs span{
+	width: 202px;
+}
+.labs a{
+	display: block;
+}
+.labselected{
+	height: 40px;
+	line-height: 40px;
+	width:190px;
+	display: block;
+	background:#F6F6F6;
+	border-right:5px solid #F6F6F6;
+	border-left:5px solid #339DD2;
+}
+
+/*文章列*/
+.articles{
+	width: 760px;
+	min-height: 700px;
+	border:1px solid #C1C1C1;
+	background: #FFF;
+}
+.art{
+	padding:15px;
+	border-bottom: 1px dashed #C1C1C1;
+}
+.art_title,.art_author{
+	height: 34px;
+	line-height: 34px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+.art_title a{
+	color:#383838;
+}
+.art_author{
+	color:#787878;
+}
+.art_cont{
+	text-indent:2em;
+	line-height: 1.6em;
+	word-wrap:break-word;
+}
+.art_title{
+	font-size: 20px;
+}
+.art_lab{
+	margin-top:5px;
+}
+.art_lab span{
+	font-size:24px;	
+	line-height:18px;	
+	color:#787878;
+}
+
+.art_lab a{
+	float: left;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	padding:0px 15px;
+	margin-right:8px;
+	/*border: 1px solid #CCCCCC;*/
+}
+/*
+.art_lab a:hover{
+	background: #505050;
+	color:#FFF;
+}
+*/
+.art_read a{
+	display: inline-block;
+	height: 35px;
+	line-height: 35px;
+	padding:0px 15px;
+	border:1px solid #CCCCCC;
+	margin-left: 8px;
+	background:#01A0F1;
+	color:#FFF;
+	font-size:1.2em;
+}
+
+.art_read a:hover{
+	color:#FFF;
+	background:#00B5E5;
+}
+
+.art_Num{
+	color:#787878;
+	font-size: 12px;
+}
+.art_btm{
+	line-height:35px;	
+}
+
+.theam_l,.theam_r{
+	background: #FFF;
+	border: 1px solid#C1C1C1;
+	
+}
+
+.theam_l{
+	width: 200px;
+	height:400px;
+
+}
+.theam_r{
+	padding: 10px;
+	width: 735px;
+	min-height: 500px;
+	margin-left: 15px;
+}
+
+.theam_user{
+	padding: 0 10px;
+	margin:100px auto;
+}
+.theam_user p{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	width: 170px;
+	line-height: 2em;
+}
+
+.huifu,.pinglun{
+	padding: 15px 10px;
+	border-bottom: 1px dashed #CCC;
+}
+
+.huifu p,.pinglun p{
+	line-height: 26px;
+}
+.hftitle{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	width:300px;
+	height:26px;
+}
+.edit_div{
+	margin-top:20px;
+	}

@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+.backToTop {
+	display: none;
+	width: 40px;
+	height:40px;
+	line-height: 40px;
+	background:url(../image/arrow-up.png) center center no-repeat;
+	color: #000;
+	font-size: 25px;
+	font-weight :bold;
+	font-family:'microsoft yahei';
+	text-align: center;
+	position: fixed;
+	_position: absolute;
+	right: 15px;
+	bottom: 100px;
+	_bottom: "auto";
+	cursor: pointer;
+	opacity: .5;
+	filter: Alpha(opacity =   50);
+	border:1px solid #000;
+}
+
+.bthover{
+	opacity: 1;
+	filter: Alpha(opacity =   100);
+}
