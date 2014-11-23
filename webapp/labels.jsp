@@ -1,6 +1,6 @@
 <%@page contentType="text/html; charset=UTF-8" session="false"%>
 <%@page import="com.ourlinc.tern.ResultPage" %>
-<%@page import="com.ourlinc.ocean.theme.Label" %>
+<%@page import="com.bossky.ocean.theme.Label" %>
 <%@page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html >

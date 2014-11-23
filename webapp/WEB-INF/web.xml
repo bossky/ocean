@@ -27,25 +27,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 		<error-code>505</error-code>
 		<location>/nofind.jspx</location>
 		</error-page> 
-	<!-- 禁止直接访问jsp -->
-	<filter>
-		<filter-name>disableJSP</filter-name>
-		<filter-class>com.ourlinc.web.RewriteFilter</filter-class>
-		<init-param>
-			<param-name>rules</param-name>
-			<param-value>\/*\.jsp$ /nofind.jspx</param-value>
-		</init-param>
-	</filter>
 	<!-- 登陆验证过滤器 -->
 	<filter>
 		<filter-name>loginFilter</filter-name>
-		<filter-class>com.ourlinc.ocean.filter.LoginFilter</filter-class>
+		<filter-class>com.bossky.ocean.filter.LoginFilter</filter-class>
 	</filter>
 		
-	<filter-mapping>
-		<filter-name>disableJSP</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-	</filter-mapping>
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/admin/*</url-pattern>

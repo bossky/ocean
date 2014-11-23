@@ -16,7 +16,7 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/" p:suffix=".jsp" />
 	<!-- 规约所有进行扫描的类，以完成Bean创建和自动依赖注入的功能，使用依赖控制器类名字的惯例优先原则， 将URI映射到控制器 如：“/tour/index.jspx”对应“com.ourlinc.controller.TourController.index()” -->
-	<context:component-scan base-package="com.ourlinc.ocean.controller" />
+	<context:component-scan base-package="com.bossky.ocean.controller" />
 	
 		<bean id="S-CCHM"
 			class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
@@ -33,28 +33,10 @@
 			</property>
 		</bean>
 
-		<!-- 业务数据集中器 -->
-		<bean id="dataHub" class="com.ourlinc.tern.support.SimpleDataHub"
-			scope="singleton" destroy-method="shutdown">
-			<constructor-arg index="0" value="test.db" />
-			<constructor-arg index="1"
-				value="user;label;theme;comments;reply;collect;praise;theme_doc;comments_doc" />
-
-			<property name="loggerPath" value="_logger" />
-			<property name="counterPath" value="_counter" />
-			<property name="serverId" value="255" />
-			<property name="versionJars">
-				<list>
-					<value>com.ourlinc.tern.support.SimpleDataHub</value>
-				</list>
-			</property>
-		</bean>
-		<bean id="userService" class="com.ourlinc.ocean.user.impl.UserServiceImpl"
+		<bean id="userService" class="com.bossky.ocean.user.impl.UserServiceImpl"
 			scope="singleton">
-			<constructor-arg index="0" ref="dataHub" />
 		</bean>
-		<bean id="themeService" class="com.ourlinc.ocean.theme.impl.ThemeServiceImpl"
+		<bean id="themeService" class="com.bossky.ocean.theme.impl.ThemeServiceImpl"
 			scope="singleton">
-			<constructor-arg index="0" ref="dataHub" />
 		</bean>
 </beans>
