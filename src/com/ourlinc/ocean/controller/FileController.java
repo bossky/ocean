@@ -4,7 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +24,12 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.ourlinc.ocean.user.User;
 
 /**
@@ -31,7 +42,7 @@ import com.ourlinc.ocean.user.User;
 @SuppressWarnings("rawtypes")
 public class FileController {
 
-	static Log _Logger = LogFactory.getLog(FileController.class);
+	static Logger _Logger = LoggerFactory.getLogger(FileController.class);
 
 	/**
 	 * HTML编辑器的上传图片功能
@@ -51,7 +62,7 @@ public class FileController {
 		try {
 			out = response.getWriter();
 		} catch (IOException e1) {
-			_Logger.info(e1.getMessage());
+			_Logger.error("出错了", e1);
 		}
 		String savePath = request.getRealPath("/") + "/attached/";
 		// 文件保存目录URL
@@ -182,8 +193,7 @@ public class FileController {
 		try {
 			out = response.getWriter();
 		} catch (IOException e1) {
-
-			_Logger.info(e1.getMessage());
+			_Logger.error("出错了", e1);
 		}
 		String dirName = request.getParameter("dir");
 		if (dirName != null) {

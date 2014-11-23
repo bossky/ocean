@@ -28,6 +28,8 @@ public class AnnotionMapper<E> implements Mapper<E> {
 	/** 主键 */
 	protected Meta key;
 
+	protected Object obj;
+
 	protected AnnotionMapper(String name, Meta key, Constructor<E> constructor,
 			Map<String, Meta> map) {
 		this.name = name;
@@ -62,7 +64,11 @@ public class AnnotionMapper<E> implements Mapper<E> {
 			constructor.setAccessible(true);
 		}
 		try {
-			return constructor.newInstance();
+			if (null == obj) {
+				return constructor.newInstance();
+			} else {
+				return constructor.newInstance(obj);
+			}
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,20 +98,78 @@ public class AnnotionMapper<E> implements Mapper<E> {
 		}
 		Meta key = null;
 		Map<String, Meta> map = new HashMap<String, Meta>();
-		for (Field f : clazz.getDeclaredFields()) {
-			if (f.isAnnotationPresent(Resource.class)) {
-				Meta meta = AnnotionMeta.valueOf(f);
-				map.put(meta.getName(), meta);
-				if (f.isAnnotationPresent(Id.class)) {
-					if (null != key) {
-						throw new IllegalArgumentException("类"
-								+ clazz.getName() + "存在两个用@Id注解的主键");
+		String name = clazz.getSimpleName();
+		Class<?> cl = clazz;
+		while (cl != null) {
+			for (Field f : clazz.getDeclaredFields()) {
+				if (f.isAnnotationPresent(Resource.class)) {
+					Meta meta = AnnotionMeta.valueOf(f);
+					map.put(meta.getName(), meta);
+					if (f.isAnnotationPresent(Id.class)) {
+						if (null != key) {
+							throw new IllegalArgumentException("类"
+									+ clazz.getName() + "存在两个用@Id注解的主键");
+						}
+						key = meta;
 					}
-					key = meta;
 				}
 			}
+			cl = cl.getSuperclass();
 		}
-		return new AnnotionMapper<E>(clazz.getSimpleName(), key, c, map);
+		AnnotionMapper<E> mapper = new AnnotionMapper<E>(name, key, c, map);
+		return mapper;
+	}
+
+	public static <E extends Object> AnnotionMapper<E> valueOf(Class<E> clazz,
+			Object obj) {
+		Constructor<E> c = null;
+		Class<?> cl = obj.getClass();
+		while (null != cl && c == null) {
+			try {
+				c = (Constructor<E>) clazz
+						.getDeclaredConstructor(cl.getClass());
+				break;
+			} catch (NoSuchMethodException e) {
+				for (Class<?> cc : cl.getInterfaces()) {
+					try {
+						c = (Constructor<E>) clazz.getDeclaredConstructor(cc);
+						break;
+					} catch (NoSuchMethodException e1) {
+						cl = cl.getSuperclass();
+					}
+				}
+			} catch (SecurityException e) {
+				throw new IllegalArgumentException("获取类" + clazz.getName()
+						+ "构造函数时出错了", e);
+			}
+		}
+		if (c == null) {
+			throw new IllegalArgumentException("类" + clazz.getName()
+					+ "没有带一个object的构造函数");
+		}
+		Meta key = null;
+		Map<String, Meta> map = new HashMap<String, Meta>();
+		String name = clazz.getSimpleName();
+		cl = clazz;
+		while (cl != null) {
+			for (Field f : cl.getDeclaredFields()) {
+				if (f.isAnnotationPresent(Resource.class)) {
+					Meta meta = AnnotionMeta.valueOf(f);
+					map.put(meta.getName(), meta);
+					if (f.isAnnotationPresent(Id.class)) {
+						if (null != key) {
+							throw new IllegalArgumentException("类"
+									+ cl.getName() + "存在两个用@Id注解的主键");
+						}
+						key = meta;
+					}
+				}
+			}
+			cl = cl.getSuperclass();
+		}
+		AnnotionMapper<E> mapper = new AnnotionMapper<E>(name, key, c, map);
+		mapper.obj = obj;
+		return mapper;
 	}
 
 	@Override

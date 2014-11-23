@@ -4,12 +4,12 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.bossky.data.business.Persistent;
 import com.ourlinc.ocean.theme.Collect;
 import com.ourlinc.ocean.theme.Theme;
 import com.ourlinc.ocean.user.di.UserDi;
 import com.ourlinc.tern.NameItem;
 import com.ourlinc.tern.ResultPage;
-import com.ourlinc.tern.support.AbstractPersistent;
 
 /**
  * 用户业务对象
@@ -17,7 +17,7 @@ import com.ourlinc.tern.support.AbstractPersistent;
  * @author Zhao_Gq
  * 
  */
-public class User extends AbstractPersistent<UserDi> {
+public class User extends Persistent<UserDi> {
 	/** 用户账号（登录名）与邮箱相同 */
 	@Resource
 	private String m_UserName;
@@ -81,7 +81,7 @@ public class User extends AbstractPersistent<UserDi> {
 	 */
 	public User(UserDi di, String username, String password, Integer role) {
 		super(di);
-		m_Id = getPersister().getNewId(username);
+		id = username;
 		m_UserName = username;
 		m_NickName = username;
 		m_Password = password;

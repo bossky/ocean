@@ -4,47 +4,53 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.bossky.data.business.Persistent;
 import com.ourlinc.ocean.theme.di.ThemeDi;
 import com.ourlinc.ocean.user.User;
-import com.ourlinc.tern.UniteId;
-import com.ourlinc.tern.support.AbstractPersistent;
+
 /**
  * 操作业务抽象类，给Collect、Praise继承用的
+ * 
  * @author daibo
  *
  */
-public abstract class Operation extends AbstractPersistent<ThemeDi>{
+public abstract class Operation extends Persistent<ThemeDi> {
 	@Resource
-	protected String m_UserId;
+	protected String userId;
 	@Resource
-	protected String m_ThemeId;
+	protected String themeId;
 	@Resource
-	protected Date m_CreateDate;
-	public static final String ID_TYPE=":";
+	protected Date createDate;
+	public static final String ID_TYPE = ":";
+
 	protected Operation(ThemeDi di) {
 		super(di);
-		
+
 	}
-	public Operation(ThemeDi di,User user,Theme theme){
+
+	public Operation(ThemeDi di, User user, Theme theme) {
 		super(di);
-		String id=UniteId.getOrdinal(user.getId().getId())
-				+ID_TYPE+UniteId.getOrdinal(theme.getId().getId());
-		m_Id=getPersister().getNewId(id);
-		m_UserId=user.getId().getId();
-		m_ThemeId=theme.getId().getId();
-		m_CreateDate=new Date();
+		id = user.getId().getId() + ID_TYPE + theme.getId().getId()
+				+ Long.toHexString(System.currentTimeMillis());
+		userId = user.getId().getId();
+		themeId = theme.getId().getId();
+		createDate = new Date();
 		markPersistenceUpdate();
 	}
-	public User getUser(){
-		return getBusinessDi().getUser(m_UserId);
+
+	public User getUser() {
+		return getBusinessDi().getUser(userId);
 	}
-	public String getThemeId(){
-		return m_ThemeId;
+
+	public String getThemeId() {
+		return themeId;
 	}
-	public Theme getTheme(){
-		return getBusinessDi().getTheme(m_ThemeId);
+
+	public Theme getTheme() {
+		return getBusinessDi().getTheme(themeId);
 	}
-	public Date getCreateDate(){
-		return m_CreateDate;
+
+	public Date getCreateDate() {
+		return createDate;
 	}
 }

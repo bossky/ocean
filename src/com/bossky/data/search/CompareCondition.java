@@ -16,10 +16,10 @@ public class CompareCondition implements SearchCondition {
 	int option;
 
 	public CompareCondition(String fieldName, Object value) {
-		this(fieldName, COMP_OPTION_EQUALS, value);
+		this(fieldName,value,COMP_OPTION_EQUALS);
 	}
 
-	public CompareCondition(String fieldName, int option, Object value) {
+	public CompareCondition(String fieldName, Object value,int option) {
 		this.fieldName = fieldName;
 		this.option = option;
 		this.value = value;

@@ -12,13 +12,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.slf4j.LoggerFactory;
 
 import com.bossky.data.DataManager;
 import com.bossky.data.Mapper;
 import com.bossky.data.Meta;
+import com.bossky.data.annotation.AnnotionMapper;
 import com.bossky.data.annotation.Id;
+import com.bossky.data.business.Di;
+import com.bossky.data.jdbc.util.SQLUtil;
 import com.bossky.data.search.CompareCondition;
 import com.bossky.data.search.SearchCondition;
 
@@ -30,10 +37,48 @@ import com.bossky.data.search.SearchCondition;
  * @param <E>
  */
 public class SqliteManager<E> implements DataManager<E> {
+	final static org.slf4j.Logger _Logger = LoggerFactory
+			.getLogger(SqliteManager.class);
 	/** 管理者名称 */
 	protected String name;
 	protected Mapper<E> mapper;
 	Connection cc;
+	static {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			_Logger.error("加载类org.sqlite.JDBC出错", e);
+		}
+	}
+	final static Map<String, DataManager<? extends Object>> map = new HashMap<String, DataManager<? extends Object>>();
+
+	@SuppressWarnings("unchecked")
+	public static synchronized <E extends Object> SqliteManager<E> createDataManage(
+			Class<E> clazz) {
+		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz);
+		SqliteManager<E> m;
+		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
+		if (m != null) {
+			return m;
+		}
+		m = new SqliteManager<E>(mapper);
+		map.put(clazz.getSimpleName(), m);
+		return m;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static synchronized <E extends Object> SqliteManager<E> createDataManage(
+			Class<E> clazz, Di di) {
+		SqliteManager<E> m;
+		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
+		if (m != null) {
+			return m;
+		}
+		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz, di);
+		m = new SqliteManager<E>(mapper);
+		map.put(clazz.getSimpleName(), m);
+		return m;
+	}
 
 	public SqliteManager(Mapper<E> mapper) {
 		this(mapper.getName(), mapper);
@@ -47,16 +92,15 @@ public class SqliteManager<E> implements DataManager<E> {
 
 	protected void init() {
 		try {
-			Class.forName("org.sqlite.JDBC");
 			// cc = DriverManager.getConnection("jdbc:sqlite::memory:");
-			cc = DriverManager.getConnection("jdbc:sqlite:test.db");
+			connect();
 			String sql = getCreateTableSql(name);
 			try {
 				executeUpdate(sql);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				_Logger.error("注册" + name + "出错", e);
 			}
-			System.out.println("成功注册表" + name);
+			_Logger.info("成功注册表" + name);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -110,7 +154,7 @@ public class SqliteManager<E> implements DataManager<E> {
 	}
 
 	/**
-	 * 执行更新语句
+	 * 执行语句
 	 * 
 	 * @param sql
 	 * @throws SQLException
@@ -122,6 +166,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			st = cc.createStatement();
 			int result = st.executeUpdate(sql);
 			return result;
+		} catch (SQLException e) {
+			throw e;
 		} finally {
 			close();
 		}
@@ -174,13 +220,66 @@ public class SqliteManager<E> implements DataManager<E> {
 				Date date = (Date) value;
 				value = format(date);// 格式化日期
 			}
-			sb.append("'").append(value).append("'");
+			sb.append("'").append(SQLUtil.escape(value)).append("'");
 			if (it.hasNext()) {
 				sb.append(" , ");
 			}
 		}
 		sb.append(");");
 		return sb.toString();
+	}
+
+	protected String getUpdateSql(Object obj) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update  ").append(name).append(" set  ");
+		Collection<Meta> col = mapper.metas();
+		Iterator<Meta> it = col.iterator();
+		Meta key = mapper.getKey();
+		Object keyval = null;
+		while (it.hasNext()) {
+			Meta m = it.next();
+			String value = getValue(m, obj);
+			if (m.getName().equals(key.getName())) {
+				keyval = value;
+				continue;
+			}
+			sb.append("`");
+			sb.append(m.getName()).append("`=' ");
+			sb.append(SQLUtil.escape(value)).append("'");
+			if (it.hasNext()) {
+				sb.append(" , ");
+			}
+		}
+		sb.append("  where `").append(key.getName());
+		sb.append("`='").append(keyval).append("'");
+		return sb.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	private String getValue(Meta m, Object obj) {
+		Object o = m.getValue(obj);
+		if (null == o) {
+			return null;
+		}
+		String s;
+		if (o instanceof Date) {
+			Date date = (Date) o;
+			s = format(date);// 格式化日期
+		} else if (o instanceof List) {
+			StringBuilder sb = new StringBuilder();
+			List<Object> list = (List<Object>) o;
+			Iterator<Object> it = list.iterator();
+			while (it.hasNext()) {
+				sb.append(it.next());
+				if (it.hasNext()) {
+					sb.append(";");
+				}
+			}
+			s = sb.toString();
+		} else {
+			s = o.toString();
+		}
+		return s;
 	}
 
 	@Override
@@ -193,10 +292,13 @@ public class SqliteManager<E> implements DataManager<E> {
 		String sql = getInsertSql(objcet);
 		try {
 			executeUpdate(sql);
-			System.out.println("成功执行" + sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			sql = getUpdateSql(objcet);
+			try {
+				executeUpdate(sql);
+			} catch (SQLException e1) {
+				_Logger.error("执行" + sql + "出错");
+			}
 		}
 	}
 
@@ -204,7 +306,7 @@ public class SqliteManager<E> implements DataManager<E> {
 	public E get(String id) {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
-				+ "`=" + id;
+				+ "`='" + SQLUtil.escape(id) + "';";
 		connect();
 		Statement st;
 		try {
@@ -221,6 +323,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return null;
 	}
@@ -245,6 +349,13 @@ public class SqliteManager<E> implements DataManager<E> {
 		} else if (type.equals(char.class.getSimpleName())
 				|| type.equals(Character.class.getSimpleName())) {
 			// TODO
+		} else if (type.equals(List.class.getSimpleName())) {
+			String s = rs.getString(name);
+			if (null == s) {
+				return null;
+			}
+			String arr[] = s.split(";");
+			return Arrays.asList(arr);
 		}
 		return rs.getObject(name);
 	}
@@ -273,6 +384,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			return e;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return null;
 	}
@@ -301,6 +414,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return Collections.emptyList();
 	}
@@ -357,6 +472,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return Collections.emptyList();
 	}
@@ -427,6 +544,8 @@ public class SqliteManager<E> implements DataManager<E> {
 				return list;
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				close();
 			}
 		}
 		return Collections.emptyList();
@@ -435,7 +554,8 @@ public class SqliteManager<E> implements DataManager<E> {
 	protected void connect() {
 		try {
 			if (null == cc || cc.isClosed()) {
-				cc = DriverManager.getConnection("jdbc:sqlite:test.db");
+				cc = DriverManager
+						.getConnection("jdbc:sqlite:/home/bo/test.db");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

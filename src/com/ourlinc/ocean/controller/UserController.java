@@ -10,8 +10,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,7 +35,7 @@ import com.ourlinc.tern.util.Misc;
  */
 @Controller
 public class UserController {
-	static Log _Logger = LogFactory.getLog(UserController.class);
+	static Logger _Logger = LoggerFactory.getLogger(UserController.class);
 
 	@Resource(name = "themeService")
 	private ThemeService m_ThemeService;
@@ -48,7 +48,7 @@ public class UserController {
 		try {
 			response.sendRedirect("mytheme.jspx");
 		} catch (IOException e) {
-			e.printStackTrace();
+			_Logger.error("出错了", e);
 		}
 		return null;
 	}
@@ -108,7 +108,7 @@ public class UserController {
 				return "user/addtheme";
 			}
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -153,7 +153,7 @@ public class UserController {
 			request.setAttribute("theme", theme);
 			return "user/updatetheme";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -192,7 +192,7 @@ public class UserController {
 			request.setAttribute("list", list);
 			return "user/themelist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -257,7 +257,7 @@ public class UserController {
 			return null;
 		} catch (Exception e) {
 
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -284,7 +284,7 @@ public class UserController {
 			}
 			return null;
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -332,7 +332,7 @@ public class UserController {
 			return "user/mytheme";
 
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -358,7 +358,7 @@ public class UserController {
 			request.setAttribute("list", list);
 			return "user/mycollecttheme";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -383,7 +383,7 @@ public class UserController {
 			}
 			return "user/mymessage";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			e.printStackTrace();
 			return "error";
 		}
@@ -455,7 +455,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			e.printStackTrace();
 			return "error";
 		}
@@ -531,7 +531,7 @@ public class UserController {
 			}
 			return "user/info";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -581,7 +581,7 @@ public class UserController {
 			}
 			return "user/updatepass";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}

@@ -189,7 +189,7 @@
 			<input type="hidden" name="commentsId" id="commentsId" value=""/>
 			<input type="hidden" name="replyId" id="replyId" value=""/>
 			<input type="hidden" name="themeId" value="${theme.id }"/>
-			<textarea rows="10" cols="100" name="content" id="content">
+			<textarea rows="10" cols="100" name="content" id="content" style="width:40px">
 			</textarea>
 			<br/>
 			<input type="button" name="send" value="提交评论" class="button"/>

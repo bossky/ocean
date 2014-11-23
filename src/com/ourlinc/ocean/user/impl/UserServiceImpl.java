@@ -1,9 +1,13 @@
 package com.ourlinc.ocean.user.impl;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.bossky.data.DataManager;
+import com.bossky.data.jdbc.sqlite.SqliteManager;
 import com.ourlinc.ocean.theme.Collect;
 import com.ourlinc.ocean.theme.Theme;
 import com.ourlinc.ocean.theme.ThemeService;
@@ -14,6 +18,7 @@ import com.ourlinc.ocean.user.di.UserDi;
 import com.ourlinc.tern.Persistent;
 import com.ourlinc.tern.Persister;
 import com.ourlinc.tern.ResultPage;
+import com.ourlinc.tern.ext.ResultPages;
 import com.ourlinc.tern.support.DataHub;
 
 /**
@@ -28,14 +33,17 @@ public class UserServiceImpl implements UserService {
 
 	final DataHub m_DataHub;
 	final UserDiImpl m_UserDi;
-	final Persister<User> m_psUser;
+	Map<String, DataManager<? extends Object>> map;
+	DataManager<User> userDM;
 
 	public UserServiceImpl(DataHub hub) throws ClassNotFoundException,
 			SQLException {
 		super();
+		map = new HashMap<String, DataManager<? extends Object>>();
 		m_DataHub = hub;
 		m_UserDi = new UserDiImpl();
-		m_psUser = hub.createPersister(User.class, m_UserDi);
+		userDM = SqliteManager.createDataManage(User.class, m_UserDi);
+		map.put(User.class.getSimpleName(), userDM);
 	}
 
 	public User addUser(String username, String password, Integer role) {
@@ -51,11 +59,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User getUser(String id) {
-		return m_psUser.get(id);
+		return userDM.get(id);
 	}
 
 	public ResultPage<User> listUser(String username) {
-		return m_psUser.startsWith(username);
+		return ResultPages.toResultPage(userDM.list(username));
 	}
 
 	class UserDiImpl implements UserDi {
@@ -85,6 +93,12 @@ public class UserServiceImpl implements UserService {
 		@Override
 		public Theme addTheme(User user, String title, String content) {
 			return m_ThemeService.createTheme(user, title, content);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public <E> DataManager<E> getDataManager(Class<? extends E> clazz) {
+			return (DataManager<E>) map.get(clazz.getSimpleName());
 		}
 
 	}

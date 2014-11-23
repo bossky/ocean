@@ -13,8 +13,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,7 +32,7 @@ import com.ourlinc.tern.util.Misc;
 /**
  * 管理员功能控制器
  * 
- * @author Zhao_Gq
+ * @author bossky
  * 
  */
 @Controller
@@ -43,7 +43,8 @@ public class AdminController {
 
 	@Resource(name = "themeService")
 	private ThemeService m_ThemeService;
-	final static Log _Logger = LogFactory.getLog(AdminController.class);
+	final static Logger _Logger = LoggerFactory
+			.getLogger(AdminController.class);
 
 	/**
 	 * 主页
@@ -53,8 +54,7 @@ public class AdminController {
 		try {
 			response.sendRedirect("themelist.jspx");
 		} catch (IOException e) {
-
-			e.printStackTrace();
+			_Logger.error("出错了", e);
 		}
 		return null;
 	}
@@ -71,7 +71,7 @@ public class AdminController {
 			request.setAttribute("rolelist", User.ALL_ROLE);// 角色列表
 			return "admin/userlist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -158,7 +158,7 @@ public class AdminController {
 			}
 			return "admin/adduser";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -195,7 +195,7 @@ public class AdminController {
 			}
 			return "admin/updateuser";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -238,7 +238,7 @@ public class AdminController {
 			}
 			return "admin/resetpass";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -285,7 +285,7 @@ public class AdminController {
 			}
 			return null;
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -331,7 +331,7 @@ public class AdminController {
 			 * .getLabels(),ResultPage.LIMIT_NONE)); }
 			 */
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 		return "admin/addlabel";
@@ -354,7 +354,7 @@ public class AdminController {
 			// ResultPages.toList(m_ThemeService.getLabels(),ResultPage.LIMIT_NONE));
 			return "admin/labellist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -386,7 +386,7 @@ public class AdminController {
 					+ URLEncoder.encode("删除成功", "utf-8"));
 			return null;
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -429,7 +429,7 @@ public class AdminController {
 					m_ThemeService.getLabels(), ResultPage.LIMIT_NONE));
 			return "admin/themelist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -456,7 +456,7 @@ public class AdminController {
 			}
 			return null;
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -495,7 +495,7 @@ public class AdminController {
 			request.setAttribute("list", list);
 			return "admin/commentlist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+				_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -519,7 +519,7 @@ public class AdminController {
 			request.setAttribute("list", list);
 			return "admin/replylist";
 		} catch (Exception e) {
-			_Logger.error(e.getMessage());
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}

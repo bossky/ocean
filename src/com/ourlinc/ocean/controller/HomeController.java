@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,7 +32,7 @@ public class HomeController {
 	private UserService m_UserService;
 	@Resource(name = "themeService")
 	private ThemeService m_ThemeService;
-	static Log _Logger = LogFactory.getLog(HomeController.class);
+	static Logger _Logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
 	 * 主页
@@ -111,20 +111,11 @@ public class HomeController {
 		String username = Misc.toString(request.getParameter("username"));
 		String password = Misc.toString(request.getParameter("password"));
 		if (!Misc.isEmpty(username) && !Misc.isEmpty(password)) {// 是否为空
-			ResultPage<User> rp = m_UserService.listUser(username);
-			if (0 == rp.getCount()) {// 用户账号不存在
+			User user = m_UserService.getUser(username);
+			if (user == null) {// 用户账号不存在
 				response.getWriter().write("failuser");
 				return null;
 			} else {
-				User user = null;
-				while (rp.gotoPage(rp.getPage() + 1)) {
-					while (rp.hasNext()) {
-						User u = rp.next();
-						if (u.getUserName().equals(username)) {
-							user = u;
-						}
-					}
-				}
 				if (null != user && user.checkPassword(password)) {// 成功
 					request.getSession().setAttribute("user", user);// 把user放进session
 					response.getWriter().write("success");
