@@ -1,12 +1,11 @@
 package com.bossky.ocean.user.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
+import com.bossky.data.DataFactory;
 import com.bossky.data.DataManager;
-import com.bossky.data.jdbc.sqlite.SqliteManager;
+import com.bossky.ocean.ext.ResultPage;
+import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
@@ -14,8 +13,6 @@ import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
 import com.bossky.ocean.user.UserService;
 import com.bossky.ocean.user.di.UserDi;
-import com.ourlinc.tern.ResultPage;
-import com.ourlinc.tern.ext.ResultPages;
 
 /**
  * 用户业务接口实现类
@@ -28,14 +25,13 @@ public class UserServiceImpl implements UserService {
 	private ThemeService m_ThemeService;
 
 	final UserDiImpl m_UserDi;
-	Map<String, DataManager<? extends Object>> map;
 	DataManager<User> userDM;
+	DataFactory factory;
 
-	public UserServiceImpl() {
-		map = new HashMap<String, DataManager<? extends Object>>();
+	public UserServiceImpl(DataFactory factory) {
+		this.factory = factory;
 		m_UserDi = new UserDiImpl();
-		userDM = SqliteManager.createDataManage(User.class, m_UserDi);
-		map.put(User.class.getSimpleName(), userDM);
+		userDM = factory.createDataManage(User.class, m_UserDi);
 	}
 
 	public User addUser(String username, String password, Integer role) {
@@ -86,7 +82,7 @@ public class UserServiceImpl implements UserService {
 		@SuppressWarnings("unchecked")
 		@Override
 		public <E> DataManager<E> getDataManager(Class<? extends E> clazz) {
-			return (DataManager<E>) map.get(clazz.getSimpleName());
+			return (DataManager<E>) factory.get(clazz.getSimpleName());
 		}
 
 	}

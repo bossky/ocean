@@ -12,7 +12,7 @@
 	if(null != resultPage) {
 %>
 
-<%@page import="com.ourlinc.tern.ResultPage"%><script>
+<%@page import="com.bossky.ocean.ext.ResultPage"%><script>
 if("function"!=typeof(goPage)){
 	var goPage=function(p){
 		document.getElementById("p").value=p;

@@ -1,9 +1,9 @@
 package com.bossky.ocean.theme;
 
 
+import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.ResultPage;
 /**
  * 话题业务接口
  * @author daibo

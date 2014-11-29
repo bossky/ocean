@@ -6,10 +6,10 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
+import com.bossky.ocean.ext.NameItem;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.NameItem;
 
 /**
  * 回复业务类

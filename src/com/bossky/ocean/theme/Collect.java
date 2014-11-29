@@ -4,7 +4,6 @@ import java.util.Comparator;
 
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.annotation.Inherited;
 
 /**
  * 收藏业务类
@@ -12,7 +11,6 @@ import com.ourlinc.tern.annotation.Inherited;
  * @author daibo
  * 
  */
-@Inherited
 public class Collect extends Operation {
 
 	public Collect(ThemeDi di, User user, Theme theme) {

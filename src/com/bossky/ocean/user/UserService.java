@@ -1,6 +1,6 @@
 package com.bossky.ocean.user;
 
-import com.ourlinc.tern.ResultPage;
+import com.bossky.ocean.ext.ResultPage;
 
 /**用户业务接口
  * @author Zhao_Gq

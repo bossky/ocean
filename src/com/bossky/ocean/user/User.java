@@ -5,11 +5,11 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
+import com.bossky.ocean.ext.NameItem;
+import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.user.di.UserDi;
-import com.ourlinc.tern.NameItem;
-import com.ourlinc.tern.ResultPage;
 
 /**
  * 用户业务对象

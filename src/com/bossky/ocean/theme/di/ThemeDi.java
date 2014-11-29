@@ -3,12 +3,12 @@ package com.bossky.ocean.theme.di;
 import java.util.List;
 
 import com.bossky.data.business.Di;
+import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.theme.Comments;
 import com.bossky.ocean.theme.Label;
 import com.bossky.ocean.theme.Reply;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.ResultPage;
 
 /**
  * 业务依赖接口

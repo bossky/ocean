@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.bossky.data.DataFactory;
 import com.bossky.data.DataManager;
-import com.bossky.data.jdbc.sqlite.SqliteManager;
 import com.bossky.data.search.CompareCondition;
+import com.bossky.ocean.ext.Misc;
+import com.bossky.ocean.ext.ResultPage;
+import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Comments;
 import com.bossky.ocean.theme.Label;
@@ -24,10 +27,6 @@ import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
 import com.bossky.ocean.user.UserService;
-import com.ourlinc.tern.ResultPage;
-import com.ourlinc.tern.UniteId;
-import com.ourlinc.tern.ext.ResultPages;
-import com.ourlinc.tern.util.Misc;
 
 /**
  * 话题业务接口实现类
@@ -46,16 +45,18 @@ public class ThemeServiceImpl implements ThemeService {
 	final DataManager<Comments> commentsDM;
 	final DataManager<Reply> replyDM;
 	final DataManager<Praise> praiseDM;
+	final DataFactory factory;
 	final ThemeDi m_ThemeDi;
 
-	public ThemeServiceImpl() {
+	public ThemeServiceImpl(DataFactory factory) {
+		this.factory = factory;
 		m_ThemeDi = new ThemeDiImpl();
-		themeDM = SqliteManager.createDataManage(Theme.class, m_ThemeDi);
-		commentsDM = SqliteManager.createDataManage(Comments.class, m_ThemeDi);
-		labelDM = SqliteManager.createDataManage(Label.class, m_ThemeDi);
-		replyDM = SqliteManager.createDataManage(Reply.class, m_ThemeDi);
-		collectDM = SqliteManager.createDataManage(Collect.class, m_ThemeDi);
-		praiseDM = SqliteManager.createDataManage(Praise.class, m_ThemeDi);
+		themeDM = factory.createDataManage(Theme.class, m_ThemeDi);
+		commentsDM = factory.createDataManage(Comments.class, m_ThemeDi);
+		labelDM = factory.createDataManage(Label.class, m_ThemeDi);
+		replyDM = factory.createDataManage(Reply.class, m_ThemeDi);
+		collectDM = factory.createDataManage(Collect.class, m_ThemeDi);
+		praiseDM = factory.createDataManage(Praise.class, m_ThemeDi);
 
 	}
 
@@ -224,8 +225,8 @@ public class ThemeServiceImpl implements ThemeService {
 
 	@Override
 	public ResultPage<Collect> getCollectThemes(User user) {
-		ResultPage<Collect> rp = ResultPages.toResultPage(collectDM
-				.list(UniteId.getOrdinal(user.getId().getId())));
+		ResultPage<Collect> rp = ResultPages.toResultPage(collectDM.list(user
+				.getId().getId()));
 		// 默认按时间排序
 		rp = ResultPages.toSortResultPage(rp, Collect.NEW_SORT,
 				ResultPage.LIMIT_NONE);
@@ -348,9 +349,8 @@ public class ThemeServiceImpl implements ThemeService {
 		@Override
 		public boolean isCollected(Theme theme, User user) {
 			// 通过userId和themeId的组合找到收藏记录
-			String id = UniteId.getOrdinal(user.getId().getId())
-					+ Operation.ID_TYPE
-					+ UniteId.getOrdinal(theme.getId().getId());
+			String id = user.getId().getId() + Operation.ID_TYPE
+					+ theme.getId().getId();
 			List<Collect> list = collectDM.list(id);
 			return !list.isEmpty();
 		}
@@ -396,10 +396,9 @@ public class ThemeServiceImpl implements ThemeService {
 			return replyDM.get(m_ReplayerTargetId);
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public <E> DataManager<E> getDataManager(Class<? extends E> clazz) {
-			return (DataManager<E>) SqliteManager.createDataManage(clazz, this);
+			return factory.get(clazz.getSimpleName());
 		}
 
 	}

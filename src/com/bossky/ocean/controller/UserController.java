@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bossky.ocean.ext.Misc;
+import com.bossky.ocean.ext.ResultPage;
+import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Comments;
 import com.bossky.ocean.theme.Label;
@@ -23,9 +26,6 @@ import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.ResultPage;
-import com.ourlinc.tern.ext.ResultPages;
-import com.ourlinc.tern.util.Misc;
 
 /**
  * 用户功能控制器

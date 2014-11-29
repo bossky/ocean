@@ -1,7 +1,6 @@
 package com.bossky.data.jdbc.sqlite;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,19 +11,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 
 import com.bossky.data.DataManager;
 import com.bossky.data.Mapper;
 import com.bossky.data.Meta;
-import com.bossky.data.annotation.AnnotionMapper;
 import com.bossky.data.annotation.Id;
-import com.bossky.data.business.Di;
 import com.bossky.data.jdbc.util.SQLUtil;
 import com.bossky.data.search.CompareCondition;
 import com.bossky.data.search.SearchCondition;
@@ -39,54 +34,20 @@ import com.bossky.data.search.SearchCondition;
 public class SqliteManager<E> implements DataManager<E> {
 	final static org.slf4j.Logger _Logger = LoggerFactory
 			.getLogger(SqliteManager.class);
+
+	SqliteFactory factory;
 	/** 管理者名称 */
 	protected String name;
 	protected Mapper<E> mapper;
-	Connection cc;
-	static {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			_Logger.error("加载类org.sqlite.JDBC出错", e);
-		}
-	}
-	final static Map<String, DataManager<? extends Object>> map = new HashMap<String, DataManager<? extends Object>>();
 
-	@SuppressWarnings("unchecked")
-	public static synchronized <E extends Object> SqliteManager<E> createDataManage(
-			Class<E> clazz) {
-		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz);
-		SqliteManager<E> m;
-		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
-		if (m != null) {
-			return m;
-		}
-		m = new SqliteManager<E>(mapper);
-		map.put(clazz.getSimpleName(), m);
-		return m;
+	protected SqliteManager(SqliteFactory factory, Mapper<E> mapper) {
+		this(factory, mapper.getName(), mapper);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static synchronized <E extends Object> SqliteManager<E> createDataManage(
-			Class<E> clazz, Di di) {
-		SqliteManager<E> m;
-		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
-		if (m != null) {
-			return m;
-		}
-		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz, di);
-		m = new SqliteManager<E>(mapper);
-		map.put(clazz.getSimpleName(), m);
-		return m;
-	}
-
-	public SqliteManager(Mapper<E> mapper) {
-		this(mapper.getName(), mapper);
-	}
-
-	public SqliteManager(String name, Mapper<E> mapper) {
+	public SqliteManager(SqliteFactory factory, String name, Mapper<E> mapper) {
 		this.name = name;
 		this.mapper = mapper;
+		this.factory = factory;
 		init();
 	}
 
@@ -160,7 +121,7 @@ public class SqliteManager<E> implements DataManager<E> {
 	 * @throws SQLException
 	 */
 	protected int executeUpdate(String sql) throws SQLException {
-		connect();
+		Connection cc = connect();
 		Statement st;
 		try {
 			st = cc.createStatement();
@@ -169,7 +130,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (SQLException e) {
 			throw e;
 		} finally {
-			close();
+			close(cc);
 		}
 	}
 
@@ -307,7 +268,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
 				+ "`='" + SQLUtil.escape(id) + "';";
-		connect();
+		Connection cc = connect();
 		Statement st;
 		try {
 			st = cc.createStatement();
@@ -324,7 +285,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			close(cc);
 		}
 		return null;
 	}
@@ -365,7 +326,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
 				+ "`=" + id;
-		connect();
+		Connection cc = connect();
 		Statement st;
 		try {
 			st = cc.createStatement();
@@ -385,7 +346,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			close(cc);
 		}
 		return null;
 	}
@@ -397,7 +358,7 @@ public class SqliteManager<E> implements DataManager<E> {
 				+ name
 				+ (null == perfix ? " " : " where `" + key.getName()
 						+ "` like '" + perfix + "%' ");
-		connect();
+		Connection cc = connect();
 		Statement st;
 		try {
 			st = cc.createStatement();
@@ -415,7 +376,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			close(cc);
 		}
 		return Collections.emptyList();
 	}
@@ -455,7 +416,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} else {
 			sql = "select * from " + name;
 		}
-		connect();
+		Connection cc = connect();
 		Statement st;
 		try {
 			st = cc.createStatement();
@@ -473,7 +434,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close();
+			close(cc);
 		}
 		return Collections.emptyList();
 	}
@@ -527,7 +488,7 @@ public class SqliteManager<E> implements DataManager<E> {
 				}
 			}
 			String sql = sb.toString();
-			connect();
+			Connection cc = connect();
 			Statement st;
 			try {
 				st = cc.createStatement();
@@ -545,26 +506,23 @@ public class SqliteManager<E> implements DataManager<E> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				close();
+				close(cc);
 			}
 		}
 		return Collections.emptyList();
 	}
 
-	protected void connect() {
+	protected Connection connect() {
 		try {
-			if (null == cc || cc.isClosed()) {
-				cc = DriverManager
-						.getConnection("jdbc:sqlite:/home/bo/test.db");
-			}
+			return factory.connect();
 		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
 	}
 
-	protected void close() {
+	protected void close(Connection cc) {
 		try {
-			if (!cc.isClosed()) {
+			if (null != cc && !cc.isClosed()) {
 				cc.close();
 			}
 		} catch (Exception e) {

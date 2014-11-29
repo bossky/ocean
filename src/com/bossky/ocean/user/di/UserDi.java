@@ -1,11 +1,11 @@
 package com.bossky.ocean.user.di;
 
 import com.bossky.data.business.Di;
+import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
-import com.ourlinc.tern.ResultPage;
 
 /**
  * 业务依赖接口

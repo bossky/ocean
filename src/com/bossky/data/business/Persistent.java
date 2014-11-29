@@ -3,7 +3,6 @@ package com.bossky.data.business;
 import javax.annotation.Resource;
 
 import com.bossky.data.annotation.Id;
-import com.ourlinc.tern.UniteId;
 
 public class Persistent<E extends Di> {
 	protected E di;
