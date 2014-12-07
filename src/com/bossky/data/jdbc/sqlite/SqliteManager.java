@@ -51,20 +51,22 @@ public class SqliteManager<E> implements DataManager<E> {
 		init();
 	}
 
+	/**
+	 * 初始化表
+	 */
 	protected void init() {
+		Connection cc = null;
 		try {
-			// cc = DriverManager.getConnection("jdbc:sqlite::memory:");
-			connect();
+			cc = factory.connect();
 			String sql = getCreateTableSql(name);
-			try {
-				executeUpdate(sql);
-			} catch (SQLException e) {
-				_Logger.error("注册" + name + "出错", e);
-			}
+			executeUpdate(sql);
 			_Logger.info("成功注册表" + name);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			_Logger.error("注册" + name + "出错", e);
+		} finally {
+			close(cc);
 		}
+
 	}
 
 	/**
@@ -115,33 +117,51 @@ public class SqliteManager<E> implements DataManager<E> {
 	}
 
 	/**
-	 * 执行语句
+	 * 执行更新语句
 	 * 
 	 * @param sql
 	 * @throws SQLException
 	 */
 	protected int executeUpdate(String sql) throws SQLException {
-		Connection cc = connect();
-		Statement st;
+		Connection cc = null;
 		try {
+			cc = factory.connect();
+			Statement st;
 			st = cc.createStatement();
+			sql = SQLUtil.escape(sql);
 			int result = st.executeUpdate(sql);
 			return result;
-		} catch (SQLException e) {
-			throw e;
 		} finally {
 			close(cc);
 		}
 	}
 
+	/**
+	 * 执行查询语句
+	 * 
+	 * @param sql
+	 * @return
+	 * @throws SQLException
+	 */
+	protected ResultSet executeQuery(Connection cc, String sql)
+			throws SQLException {
+		Statement st;
+		st = cc.createStatement();
+		sql = SQLUtil.escape(sql);
+		return st.executeQuery(sql);
+	}
+
+	/** 格式化日期 */
 	SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	/** 格式化日期为　yyyy-MM-dd HH:mm:ss格式 */
 	String format(Date date) {
 		synchronized (FORMAT) {
 			return FORMAT.format(date);
 		}
 	}
 
+	/** 转换字符串yyyy-MM-dd HH:mm:ss格式,为日期 */
 	Date parse(String date) {
 		synchronized (FORMAT) {
 			try {
@@ -190,6 +210,12 @@ public class SqliteManager<E> implements DataManager<E> {
 		return sb.toString();
 	}
 
+	/**
+	 * 更新语句
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	protected String getUpdateSql(Object obj) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("update  ").append(name).append(" set  ");
@@ -206,7 +232,7 @@ public class SqliteManager<E> implements DataManager<E> {
 			}
 			sb.append("`");
 			sb.append(m.getName()).append("`=' ");
-			sb.append(SQLUtil.escape(value)).append("'");
+			sb.append(value).append("'");
 			if (it.hasNext()) {
 				sb.append(" , ");
 			}
@@ -216,6 +242,13 @@ public class SqliteManager<E> implements DataManager<E> {
 		return sb.toString();
 	}
 
+	/**
+	 * 获取对象值
+	 * 
+	 * @param m
+	 * @param obj
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private String getValue(Meta m, Object obj) {
 		Object o = m.getValue(obj);
@@ -257,8 +290,8 @@ public class SqliteManager<E> implements DataManager<E> {
 			sql = getUpdateSql(objcet);
 			try {
 				executeUpdate(sql);
-			} catch (SQLException e1) {
-				_Logger.error("执行" + sql + "出错");
+			} catch (SQLException ee) {
+				_Logger.error("执行" + sql + "出错", ee);
 			}
 		}
 	}
@@ -267,12 +300,11 @@ public class SqliteManager<E> implements DataManager<E> {
 	public E get(String id) {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
-				+ "`='" + SQLUtil.escape(id) + "';";
-		Connection cc = connect();
-		Statement st;
+				+ "`='" + id + "';";
+		Connection cc = null;
 		try {
-			st = cc.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			cc = factory.connect();
+			ResultSet rs = executeQuery(cc, sql);
 			if (rs.next()) {
 				E e = mapper.getInsantce();
 				for (Meta m : mapper.metas()) {
@@ -282,8 +314,8 @@ public class SqliteManager<E> implements DataManager<E> {
 				return e;
 			}
 			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			_Logger.error("执行" + sql + "出错", e);
 		} finally {
 			close(cc);
 		}
@@ -326,11 +358,10 @@ public class SqliteManager<E> implements DataManager<E> {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
 				+ "`=" + id;
-		Connection cc = connect();
-		Statement st;
+		Connection cc = null;
 		try {
-			st = cc.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			cc = factory.connect();
+			ResultSet rs = executeQuery(cc, sql);
 			E e = null;
 			if (rs.next()) {
 				e = mapper.getInsantce();
@@ -358,11 +389,10 @@ public class SqliteManager<E> implements DataManager<E> {
 				+ name
 				+ (null == perfix ? " " : " where `" + key.getName()
 						+ "` like '" + perfix + "%' ");
-		Connection cc = connect();
-		Statement st;
+		Connection cc = null;
 		try {
-			st = cc.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			cc = factory.connect();
+			ResultSet rs = executeQuery(cc, sql);
 			List<E> list = new ArrayList<E>();
 			while (rs.next()) {
 				E e = mapper.getInsantce();
@@ -416,11 +446,10 @@ public class SqliteManager<E> implements DataManager<E> {
 		} else {
 			sql = "select * from " + name;
 		}
-		Connection cc = connect();
-		Statement st;
+		Connection cc = null;
 		try {
-			st = cc.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			cc = factory.connect();
+			ResultSet rs = executeQuery(cc, sql);
 			List<E> list = new ArrayList<E>();
 			while (rs.next()) {
 				E e = mapper.getInsantce();
@@ -488,11 +517,10 @@ public class SqliteManager<E> implements DataManager<E> {
 				}
 			}
 			String sql = sb.toString();
-			Connection cc = connect();
-			Statement st;
+			Connection cc = null;
 			try {
-				st = cc.createStatement();
-				ResultSet rs = st.executeQuery(sql);
+				cc = factory.connect();
+				ResultSet rs = executeQuery(cc, sql);
 				List<E> list = new ArrayList<E>();
 				while (rs.next()) {
 					E e = mapper.getInsantce();
@@ -504,20 +532,12 @@ public class SqliteManager<E> implements DataManager<E> {
 				}
 				return list;
 			} catch (Exception e) {
-				e.printStackTrace();
+				_Logger.error("执行" + sql + "出错", e);
 			} finally {
 				close(cc);
 			}
 		}
 		return Collections.emptyList();
-	}
-
-	protected Connection connect() {
-		try {
-			return factory.connect();
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
 	protected void close(Connection cc) {
@@ -526,7 +546,7 @@ public class SqliteManager<E> implements DataManager<E> {
 				cc.close();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			_Logger.error("关闭" + cc + "出错", e);
 		}
 	}
 
@@ -539,7 +559,6 @@ public class SqliteManager<E> implements DataManager<E> {
 		try {
 			return executeUpdate(sql) > 0;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
