@@ -1,7 +1,6 @@
 package com.bossky.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -287,7 +286,5 @@ public class CommonUtil {
 		}
 		return true;
 	}
-
-	
 
 }

@@ -5,11 +5,11 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
-import com.bossky.ocean.ext.NameItem;
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.user.di.UserDi;
+import com.bossky.util.NameItem;
 
 /**
  * 用户业务对象
@@ -61,10 +61,10 @@ public class User extends Persistent<UserDi> {
 	@Resource
 	private int newMessageNum = 0;
 
-	public static final NameItem STATUS_NORMAL = new NameItem("正常", 0);
-	public static final NameItem STATUS_BLACK = new NameItem("黑色单", 1);
-	public static final NameItem ROLE_ADMIN = new NameItem("管理员", 0);
-	public static final NameItem ROLE_USER = new NameItem("普通用户", 1);
+	public static final NameItem STATUS_NORMAL = NameItem.valueOf(0, "正常");
+	public static final NameItem STATUS_BLACK = NameItem.valueOf(1, "黑色单");
+	public static final NameItem ROLE_ADMIN = NameItem.valueOf(0, "管理员");
+	public static final NameItem ROLE_USER = NameItem.valueOf(1, "普通用户");
 	public static final NameItem[] ALL_ROLE = { ROLE_ADMIN, ROLE_USER };
 	public static final NameItem[] ALL_STATUS = { STATUS_NORMAL, STATUS_BLACK };
 

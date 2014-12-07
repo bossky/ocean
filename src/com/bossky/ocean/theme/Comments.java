@@ -7,12 +7,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
-import com.bossky.ocean.ext.NameItem;
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
+import com.bossky.util.NameItem;
 
 /**
  * 评论业务类
@@ -31,8 +31,8 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	private Date createDate;// 发表时间
 	@Resource
 	private int status;
-	public static final NameItem STATUS_SHIELD = new NameItem("已屏蔽", 0);
-	public static final NameItem STATUS_NORMAL = new NameItem("正常", 1);
+	public static final NameItem STATUS_SHIELD = NameItem.valueOf(0, "已屏蔽");
+	public static final NameItem STATUS_NORMAL = NameItem.valueOf(1, "正常");
 	public static final NameItem[] ALL_STATUS = { STATUS_SHIELD, STATUS_NORMAL };
 	public static final String REINDEX_TYPE = "C:";
 
@@ -154,7 +154,6 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	public User getSender() {
 		return getCommentator();
 	}
-
 
 	@Override
 	public int getType() {

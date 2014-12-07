@@ -6,10 +6,10 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
-import com.bossky.ocean.ext.NameItem;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
+import com.bossky.util.NameItem;
 
 /**
  * 回复业务类
@@ -30,8 +30,8 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 	private Date createDate;
 	@Resource
 	private int m_Status;
-	public static final NameItem STATUS_SHIELD = new NameItem("已屏蔽", 0);
-	public static final NameItem STATUS_NORMAL = new NameItem("正常", 1);
+	public static final NameItem STATUS_SHIELD = NameItem.valueOf(0, "已屏蔽");
+	public static final NameItem STATUS_NORMAL = NameItem.valueOf(1, "正常");
 	public static final NameItem[] ALL_STATUS = { STATUS_SHIELD, STATUS_NORMAL };
 
 	public Reply(ThemeDi di, Comments comments, User user, String content) {
