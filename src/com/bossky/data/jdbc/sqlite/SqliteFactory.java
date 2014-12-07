@@ -74,6 +74,21 @@ public class SqliteFactory implements DataFactory {
 		return cc;
 	}
 
+	/**
+	 * 关闭连接
+	 * 
+	 * @param cc
+	 */
+	public void close(Connection cc) {
+		try {
+			if (null != cc && !cc.isClosed()) {
+				cc.close();
+			}
+		} catch (Exception e) {
+			_Logger.error("关闭" + cc + "出错", e);
+		}
+	}
+
 	@Override
 	public <E> DataManager<E> get(String name) {
 		return (DataManager<E>) map.get(name);

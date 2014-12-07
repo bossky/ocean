@@ -64,7 +64,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (SQLException e) {
 			_Logger.error("注册" + name + "出错", e);
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 
 	}
@@ -128,11 +128,10 @@ public class SqliteManager<E> implements DataManager<E> {
 			cc = factory.connect();
 			Statement st;
 			st = cc.createStatement();
-			sql = SQLUtil.escape(sql);
 			int result = st.executeUpdate(sql);
 			return result;
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 	}
 
@@ -147,7 +146,6 @@ public class SqliteManager<E> implements DataManager<E> {
 			throws SQLException {
 		Statement st;
 		st = cc.createStatement();
-		sql = SQLUtil.escape(sql);
 		return st.executeQuery(sql);
 	}
 
@@ -232,7 +230,7 @@ public class SqliteManager<E> implements DataManager<E> {
 			}
 			sb.append("`");
 			sb.append(m.getName()).append("`=' ");
-			sb.append(value).append("'");
+			sb.append(SQLUtil.escape(value)).append("'");
 			if (it.hasNext()) {
 				sb.append(" , ");
 			}
@@ -300,7 +298,7 @@ public class SqliteManager<E> implements DataManager<E> {
 	public E get(String id) {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
-				+ "`='" + id + "';";
+				+ "`='" + SQLUtil.escape(id) + "';";
 		Connection cc = null;
 		try {
 			cc = factory.connect();
@@ -317,7 +315,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (SQLException e) {
 			_Logger.error("执行" + sql + "出错", e);
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 		return null;
 	}
@@ -357,7 +355,7 @@ public class SqliteManager<E> implements DataManager<E> {
 	public E remove(String id) {
 		Meta key = mapper.getKey();
 		String sql = "select * from " + name + " where `" + key.getName()
-				+ "`=" + id;
+				+ "`='" + SQLUtil.escape(id) + "'";
 		Connection cc = null;
 		try {
 			cc = factory.connect();
@@ -377,7 +375,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 		return null;
 	}
@@ -388,7 +386,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		String sql = "select * from "
 				+ name
 				+ (null == perfix ? " " : " where `" + key.getName()
-						+ "` like '" + perfix + "%' ");
+						+ "` like '" + SQLUtil.escape(perfix) + "%' ");
 		Connection cc = null;
 		try {
 			cc = factory.connect();
@@ -406,7 +404,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 		return Collections.emptyList();
 	}
@@ -463,7 +461,7 @@ public class SqliteManager<E> implements DataManager<E> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close(cc);
+			factory.close(cc);
 		}
 		return Collections.emptyList();
 	}
@@ -490,24 +488,25 @@ public class SqliteManager<E> implements DataManager<E> {
 			if (next instanceof CompareCondition) {
 				CompareCondition s = (CompareCondition) next;
 				sb.append('`').append(s.getFieldName()).append('`');
+				Object value = SQLUtil.escape(s.getValue());
 				if (s.getOption() == CompareCondition.COMP_OPTION_EQUALS) {
-					sb.append("='").append(s.getValue()).append("'");
+					sb.append("='").append(value).append("'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_NO_EQUALS) {
-					sb.append("!='").append(s.getValue()).append("'");
+					sb.append("!='").append(value).append("'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_GREATER) {
-					sb.append(">'").append(s.getValue()).append("'");
+					sb.append(">'").append(value).append("'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_LESS) {
-					sb.append("<'").append(s.getValue()).append("'");
+					sb.append("<'").append(value).append("'");
 				} else if (s.getOption() == (CompareCondition.COMP_OPTION_GREATER & CompareCondition.COMP_OPTION_EQUALS)) {
-					sb.append(">='").append(s.getValue()).append("'");
+					sb.append(">='").append(value).append("'");
 				} else if (s.getOption() == (CompareCondition.COMP_OPTION_LESS & CompareCondition.COMP_OPTION_EQUALS)) {
-					sb.append("<='").append(s.getValue()).append("'");
+					sb.append("<='").append(value).append("'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_STARTWITH) {
-					sb.append(" like '").append(s.getValue()).append("%'");
+					sb.append(" like '").append(value).append("%'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_ENDWITH) {
-					sb.append(" like '%").append(s.getValue()).append("'");
+					sb.append(" like '%").append(value).append("'");
 				} else if (s.getOption() == CompareCondition.COMP_OPTION_LIKE) {
-					sb.append(" like '%").append(s.getValue()).append("%'");
+					sb.append(" like '%").append(value).append("%'");
 				} else {
 					throw new IllegalArgumentException("不支持的筛选方式"
 							+ s.getOption());
@@ -534,20 +533,10 @@ public class SqliteManager<E> implements DataManager<E> {
 			} catch (Exception e) {
 				_Logger.error("执行" + sql + "出错", e);
 			} finally {
-				close(cc);
+				factory.close(cc);
 			}
 		}
 		return Collections.emptyList();
-	}
-
-	protected void close(Connection cc) {
-		try {
-			if (null != cc && !cc.isClosed()) {
-				cc.close();
-			}
-		} catch (Exception e) {
-			_Logger.error("关闭" + cc + "出错", e);
-		}
 	}
 
 	@Override
