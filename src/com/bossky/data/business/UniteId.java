@@ -15,4 +15,9 @@ public class UniteId {
 		return new UniteId(id);
 	}
 
+	@Override
+	public String toString() {
+		return id;
+	}
+
 }

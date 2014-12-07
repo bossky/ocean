@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bossky.data.DataFactory;
 import com.bossky.data.DataManager;
@@ -36,7 +36,7 @@ import com.bossky.ocean.user.UserService;
  */
 public class ThemeServiceImpl implements ThemeService {
 
-	static Log _Logger = LogFactory.getLog(ThemeServiceImpl.class);
+	static Logger _Logger = LoggerFactory.getLogger(ThemeServiceImpl.class);
 	@Resource(name = "userService")
 	private UserService m_UserService;
 	final DataManager<Label> labelDM;
@@ -263,7 +263,7 @@ public class ThemeServiceImpl implements ThemeService {
 				}
 			}
 		}
-		List<Comments> cs = commentsDM.search(new CompareCondition("userId",
+		List<Comments> cs = commentsDM.search(new CompareCondition("commentetatorId",
 				user.getId().getId()));
 		ResultPage<Comments> crp = ResultPages.toResultPage(cs);
 		// 查找我的评论中的回复消息

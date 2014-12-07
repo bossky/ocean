@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS}[%thread]%-5level %logger{50} %msg%n
+			</Pattern>
+		</encoder>
+		<!-- <filter class="ch.qos.logback.core.filter.EvaluatorFilter"> <evaluator> 
+			<expression> if(!level > WARN){ if(logger.startsWith("org.springframework")){ 
+			return false; } } return true; </expression> </evaluator> <OnMismatch>NEUTRAL</OnMismatch> 
+			<OnMatch>DENY</OnMatch> </filter> -->
+	</appender>
+
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>

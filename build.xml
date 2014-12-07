@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- build release需要创建一个svn.properties文件于同一目录下（注：别提交svn.properties文件），其内容为如下： 
+	svn.username=你的SVN用户名 svn.password=你的SVN登录密码 -->
+<project name="build" default="jar" basedir=".">
+	<!--class文件目录 -->
+	<property name="class.dir" value="webapp/WEB-INF/classes" />
+	<!--lib目录 -->
+	<property name="lib.dir" value="webapp/WEB-INF/lib" />
+	<!--要输出的JAR文件名 -->
+	<property name="out.jar" value="${lib.dir}/ocean.jar" />
+	<!--bin目录-->
+	<property name="bin.dir" value="bin" />
+	<!--打包JAR -->
+	<target name="jar" description="只是编译打包jar">
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<manifest file="MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Implementation-Version" value="${ver}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+		</manifest>
+		<delete file="${out.jar}" />
+		<jar destfile="${out.jar}" manifest="MANIFEST.MF">
+			<fileset dir="${class.dir}">
+				<exclude name="commons-logging.properties" />
+				<exclude name="simplelogger.properties" />
+				<exclude name="logback-test.xml" />
+			</fileset>
+		</jar>
+		<delete file="MANIFEST.MF" />
+		<echo> 生成 => ${out.jar}</echo>
+	</target>
+
+</project>

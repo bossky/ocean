@@ -10,10 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.bossky.ocean.controller.AdminController;
 import com.bossky.ocean.user.User;
 
 /**
@@ -23,7 +22,7 @@ import com.bossky.ocean.user.User;
  * 
  */
 public class LoginFilter implements Filter {
-	static Log _Logger = LogFactory.getLog(AdminController.class);
+	static Logger _Logger = LoggerFactory.getLogger(LoginFilter.class);
 
 	public LoginFilter() {
 
