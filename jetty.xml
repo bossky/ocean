@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
 
-	<!-- =============================================================== -->
-	<!-- Configure the Jetty Server                                      -->
-	<!--                                                                 -->
-	<!-- Documentation of this file format can be found at:              -->
-	<!-- http://wiki.eclipse.org/Jetty/Reference/jetty.xml_syntax        -->
-	<!--                                                                 -->
-	<!-- Additional configuration files are available in $JETTY_HOME/etc -->
-	<!-- and can be mixed in.  For example:                              -->
-	<!--   java -jar start.jar etc/jetty-ssl.xml                         -->
-	<!--                                                                 -->
-	<!-- See start.ini file for the default configuraton files           -->
-	<!-- =============================================================== -->
+<!-- =============================================================== -->
+<!-- Configure the Jetty Server -->
+<!-- -->
+<!-- Documentation of this file format can be found at: -->
+<!-- http://wiki.eclipse.org/Jetty/Reference/jetty.xml_syntax -->
+<!-- -->
+<!-- Additional configuration files are available in $JETTY_HOME/etc -->
+<!-- and can be mixed in. For example: -->
+<!-- java -jar start.jar etc/jetty-ssl.xml -->
+<!-- -->
+<!-- See start.ini file for the default configuraton files -->
+<!-- =============================================================== -->
 
 
-<Configure id="zuoche" class="org.eclipse.jetty.server.Server">
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
 
 	<!-- =========================================================== -->
-	<!-- Server Thread Pool                                          -->
+	<!-- Server Thread Pool -->
 	<!-- =========================================================== -->
 	<Set name="ThreadPool">
 		<!-- Default queued blocking threadpool -->
@@ -30,7 +30,7 @@
 	</Set>
 
 	<!-- =========================================================== -->
-	<!-- Set connectors                                              -->
+	<!-- Set connectors -->
 	<!-- =========================================================== -->
 
 	<!-- 浏览器入口 -->
@@ -56,7 +56,7 @@
 	</Call>
 
 	<!-- =========================================================== -->
-	<!-- Set handler Collection Structure                            -->
+	<!-- Set handler Collection Structure -->
 	<!-- =========================================================== -->
 	<Set name="handler">
 		<New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
@@ -69,9 +69,9 @@
 								<SystemProperty name="project_name" default="web" />
 							</Set>
 							<Set name="resourceBase">
-								<SystemProperty name="user.dir" default="." />/webapp
+								<SystemProperty name="user.dir" default="." />
+								/webapp
 							</Set>
-						
 							<Set name="extractWAR">false</Set>
 							<Set name="copyWebDir">false</Set>
 						</New>
@@ -82,7 +82,7 @@
 	</Set>
 
 	<!-- =========================================================== -->
-	<!-- extra options                                               -->
+	<!-- extra options -->
 	<!-- =========================================================== -->
 	<Set name="stopAtShutdown">true</Set>
 	<Set name="sendServerVersion">true</Set>

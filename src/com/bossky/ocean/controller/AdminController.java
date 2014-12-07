@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bossky.ocean.ext.Misc;
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Comments;
@@ -28,6 +27,7 @@ import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.User;
 import com.bossky.ocean.user.UserService;
+import com.bossky.util.CommonUtil;
 
 /**
  * 管理员功能控制器
@@ -66,7 +66,7 @@ public class AdminController {
 	String userlist(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			ResultPage<User> list = m_UserService.listUser(null);
-			list.gotoPage(Misc.toInt(request.getParameter("p"), 1));
+			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			request.setAttribute("rolelist", User.ALL_ROLE);// 角色列表
 			return "admin/userlist";
@@ -86,7 +86,7 @@ public class AdminController {
 	String adduser(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
+			String op = CommonUtil.toString(request.getParameter("op"));
 			if ("add".equals(op)) {// 添加新用户
 				User admin = (User) request.getSession().getAttribute("user");
 				if (null == admin) {
@@ -95,19 +95,19 @@ public class AdminController {
 				if (!admin.isAdmin()) {// 判断是否为管理员在操作
 					return "nofind";
 				}
-				int role = Misc.toInt(
-						Misc.toString(request.getParameter("role")), -1);
-				String username = Misc.toString(request
+				int role = CommonUtil.toInt(
+						CommonUtil.toString(request.getParameter("role")), -1);
+				String username = CommonUtil.toString(request
 						.getParameter("username"));
-				String password = Misc.toString(request
+				String password = CommonUtil.toString(request
 						.getParameter("password"));
-				Date trainingDate = Misc.parseDate(Misc.toString(request
+				Date trainingDate = CommonUtil.parseDate(CommonUtil.toString(request
 						.getParameter("trainingDate")));
-				if (Misc.isEmpty(username)) {
+				if (CommonUtil.isEmpty(username)) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("用户名不能为空", "utf-8"));
 					return null;
-				} else if (Misc.isEmpty(password)) {
+				} else if (CommonUtil.isEmpty(password)) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("密码不能为空", "utf-8"));
 					return null;
@@ -172,7 +172,7 @@ public class AdminController {
 	String updateuser(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
+			String op = CommonUtil.toString(request.getParameter("op"));
 			if ("update".equals(op)) {// 修改
 				User admin = (User) request.getSession().getAttribute("user");
 				if (null == admin) {
@@ -181,12 +181,12 @@ public class AdminController {
 				if (!admin.isAdmin()) {// 判断是否为管理员在操作
 					return "nofind";
 				}
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				User user = m_UserService.getUser(id);
 				if (null == user) {
 					return "nofind";
 				}
-				Date trainingDate = Misc.parseDate(Misc.toString(request
+				Date trainingDate = CommonUtil.parseDate(CommonUtil.toString(request
 						.getParameter("trainingDate")));
 				user.setTrainingDate(trainingDate);// 修改培训日期
 				response.sendRedirect("userlist.jspx?msg="
@@ -222,7 +222,7 @@ public class AdminController {
 					return "login";
 				}
 				String password = request.getParameter("password");
-				if (Misc.isEmpty(password)) {
+				if (CommonUtil.isEmpty(password)) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("重置失败,密码不能为空", "UTF-8"));
 					return null;
@@ -251,7 +251,7 @@ public class AdminController {
 	@RequestMapping
 	String pullblack(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
+			String op = CommonUtil.toString(request.getParameter("op"));
 			if ("pullblack".equals(op)) {// 拉黑
 				User admin = (User) request.getSession().getAttribute("user");
 				if (null == admin) {
@@ -260,7 +260,7 @@ public class AdminController {
 				if (!admin.isAdmin()) {// 判断是否为管理员在操作
 					return "nofind";
 				}
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				User user = m_UserService.getUser(id);
 				if (null == user) {
 					return "login";
@@ -275,7 +275,7 @@ public class AdminController {
 				if (!admin.isAdmin()) {// 判断是否为管理员在操作
 					return "nofind";
 				}
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				User user = m_UserService.getUser(id);
 				if (null == user) {
 					return "login";
@@ -300,12 +300,12 @@ public class AdminController {
 	@RequestMapping
 	String addlabel(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
+			String op = CommonUtil.toString(request.getParameter("op"));
 			if ("add".equals(op)) {
-				String name = Misc.toString(request.getParameter("name"));
-				String parentId = Misc.toString(request
+				String name = CommonUtil.toString(request.getParameter("name"));
+				String parentId = CommonUtil.toString(request
 						.getParameter("parentId"));
-				if (Misc.isEmpty(name)) {
+				if (CommonUtil.isEmpty(name)) {
 					response.sendRedirect("labellist.jspx?msg="
 							+ URLEncoder.encode("标签名不能为空!", "utf-8"));
 					return null;
@@ -348,7 +348,7 @@ public class AdminController {
 	String labellist(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			ResultPage<Label> list = m_ThemeService.getLabels();
-			list.gotoPage(Misc.toInt(request.getParameter("p"), 1));
+			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			// request.setAttribute("labelList",
 			// ResultPages.toList(m_ThemeService.getLabels(),ResultPage.LIMIT_NONE));
@@ -369,8 +369,8 @@ public class AdminController {
 	@RequestMapping
 	String deletelabel(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String id = Misc.toString(request.getParameter("id"));
-			if (Misc.isEmpty(id)) {
+			String id = CommonUtil.toString(request.getParameter("id"));
+			if (CommonUtil.isEmpty(id)) {
 				response.sendRedirect("labellist.jspx?msg="
 						+ URLEncoder.encode("删除失败", "utf-8"));
 				return null;
@@ -398,11 +398,11 @@ public class AdminController {
 	@RequestMapping
 	String themelist(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
-			String userName = Misc.toString(request.getParameter("userName"));
-			String labelId = Misc.toString(request.getParameter("labelId"));
+			String op = CommonUtil.toString(request.getParameter("op"));
+			String userName = CommonUtil.toString(request.getParameter("userName"));
+			String labelId = CommonUtil.toString(request.getParameter("labelId"));
 			if ("update".equals(op)) {
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				Theme theme = m_ThemeService.getTheme(id);
 				if (null == theme) {
 					return "nofind";
@@ -421,7 +421,7 @@ public class AdminController {
 			}
 			ResultPage<Theme> list = m_ThemeService.listTheme(null, userName,
 					labelId);
-			list.gotoPage(Misc.toInt(request.getParameter("p"), 1));
+			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			request.setAttribute("userName", userName);
 			request.setAttribute("labelId", labelId);
@@ -441,15 +441,15 @@ public class AdminController {
 	@RequestMapping
 	String shieldtheme(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
+			String op = CommonUtil.toString(request.getParameter("op"));
 			if ("shield".equals(op)) {// 屏蔽
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				Theme theme = m_ThemeService.getTheme(id);
 				theme.shield();
 				response.getWriter().write("shield");
 
 			} else if ("recover".equals(op)) {// 恢复
-				String id = Misc.toString(request.getParameter("id"));
+				String id = CommonUtil.toString(request.getParameter("id"));
 				Theme theme = m_ThemeService.getTheme(id);
 				theme.recover();
 				response.getWriter().write("recover");
@@ -471,7 +471,7 @@ public class AdminController {
 		list.add(id);
 		Label l = m_ThemeService.getLabel(id);
 		String parentId = l.getParentId();
-		if (!Misc.isEmpty(parentId) && !list.contains(parentId)) {
+		if (!CommonUtil.isEmpty(parentId) && !list.contains(parentId)) {
 			addParentLabel(list, parentId);
 		}
 	}
@@ -482,14 +482,14 @@ public class AdminController {
 	@RequestMapping
 	String commentlist(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String userName = Misc.toString(request.getParameter("userName"));
-			String themeTitle = Misc.toString(request
+			String userName = CommonUtil.toString(request.getParameter("userName"));
+			String themeTitle = CommonUtil.toString(request
 					.getParameter("themeTitle"));
 			ResultPage<Comments> list = m_ThemeService.listComments(userName,
 					themeTitle);
 			list = ResultPages.toSortResultPage(list, Comments.TIME_SORT,
 					ResultPage.LIMIT_NONE);
-			list.gotoPage(Misc.toInt(request.getParameter("p"), 1));
+			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
 			request.setAttribute("userName", userName);
 			request.setAttribute("themeTitle", themeTitle);
 			request.setAttribute("list", list);
@@ -506,14 +506,14 @@ public class AdminController {
 	@RequestMapping
 	String replylist(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String userName = Misc.toString(request.getParameter("userName"));
-			String themeTitle = Misc.toString(request
+			String userName = CommonUtil.toString(request.getParameter("userName"));
+			String themeTitle = CommonUtil.toString(request
 					.getParameter("themeTitle"));
 			ResultPage<Reply> list = m_ThemeService.listReply(userName,
 					themeTitle);
 			list = ResultPages.toSortResultPage(list, Reply.TIME_SORT,
 					ResultPage.LIMIT_NONE);
-			list.gotoPage(Misc.toInt(request.getParameter("p"), 1));
+			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
 			request.setAttribute("userName", userName);
 			request.setAttribute("themeTitle", themeTitle);
 			request.setAttribute("list", list);
@@ -531,8 +531,8 @@ public class AdminController {
 	String shieldcomments(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
-			String id = Misc.toString(request.getParameter("id"));
+			String op = CommonUtil.toString(request.getParameter("op"));
+			String id = CommonUtil.toString(request.getParameter("id"));
 			Comments c = m_ThemeService.getComments(id);
 			if (null == c) {
 				return null;
@@ -557,8 +557,8 @@ public class AdminController {
 	@RequestMapping
 	String shieldreply(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = Misc.toString(request.getParameter("op"));
-			String id = Misc.toString(request.getParameter("id"));
+			String op = CommonUtil.toString(request.getParameter("op"));
+			String id = CommonUtil.toString(request.getParameter("id"));
 			Reply c = m_ThemeService.getReply(id);
 			if (null == c) {
 				return null;

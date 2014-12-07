@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.bossky.data.DataFactory;
 import com.bossky.data.DataManager;
 import com.bossky.data.search.CompareCondition;
-import com.bossky.ocean.ext.Misc;
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Collect;
@@ -27,6 +26,7 @@ import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
 import com.bossky.ocean.user.UserService;
+import com.bossky.util.CommonUtil;
 
 /**
  * 话题业务接口实现类
@@ -113,18 +113,18 @@ public class ThemeServiceImpl implements ThemeService {
 	public ResultPage<Comments> listComments(String userName, String title) {
 		ResultPage<Comments> rp = ResultPages.toResultPage(commentsDM
 				.list(null));
-		if (!Misc.isEmpty(userName) || !Misc.isEmpty(title)) {
+		if (!CommonUtil.isEmpty(userName) || !CommonUtil.isEmpty(title)) {
 			List<Comments> list = new ArrayList<Comments>();
 			while (rp.gotoPage(rp.getPage() + 1)) {
 				while (rp.hasNext()) {
 					Comments c = rp.next();
 
-					if (!Misc.isEmpty(userName)
+					if (!CommonUtil.isEmpty(userName)
 							&& !c.getCommentator().getUserName().toLowerCase()
 									.contains(userName.toLowerCase())) {
 						continue;// userName不为空且评论者的用户名不是userName开头的评论不要
 					}
-					if (!Misc.isEmpty(title)
+					if (!CommonUtil.isEmpty(title)
 							&& !c.getTheme().getTitle().toLowerCase()
 									.contains(title.toLowerCase())) {
 						continue;// title不为空且评论者的用户名不是title开头的评论不要
@@ -141,17 +141,17 @@ public class ThemeServiceImpl implements ThemeService {
 	@Override
 	public ResultPage<Reply> listReply(String userName, String title) {
 		ResultPage<Reply> rp = ResultPages.toResultPage(replyDM.list(null));
-		if (!Misc.isEmpty(userName) || !Misc.isEmpty(title)) {
+		if (!CommonUtil.isEmpty(userName) || !CommonUtil.isEmpty(title)) {
 			List<Reply> list = new ArrayList<Reply>();
 			while (rp.gotoPage(rp.getPage() + 1)) {
 				while (rp.hasNext()) {
 					Reply r = rp.next();
-					if (!Misc.isEmpty(userName)
+					if (!CommonUtil.isEmpty(userName)
 							&& !r.getReplyUser().getUserName().toLowerCase()
 									.contains(userName.toLowerCase())) {
 						continue;// userName不为空且回复者的用户名不是userName开头的回复不要
 					}
-					if (!Misc.isEmpty(title)
+					if (!CommonUtil.isEmpty(title)
 							&& !r.getTheme().getTitle().toLowerCase()
 									.contains(title.toLowerCase())) {
 						continue;// title不为空且回复者的用户名不是title开头的回复不要
@@ -193,14 +193,14 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 		ResultPage<Theme> rp = null;
 
-		if (Misc.isEmpty(labelId)) {// labelId为null时查找出所有的话题
+		if (CommonUtil.isEmpty(labelId)) {// labelId为null时查找出所有的话题
 			rp = ResultPages.toResultPage(themeDM.list(null));
 		} else {// labelId不为null是找出label有关的话题
 			List<Theme> ts = themeDM.search(new CompareCondition("labelList",
 					labelId, CompareCondition.COMP_OPTION_LIKE));
 			rp = ResultPages.toResultPage(ts);
 		}
-		if (!Misc.isEmpty(userName)) {
+		if (!CommonUtil.isEmpty(userName)) {
 			List<Theme> list = new ArrayList<Theme>();
 			while (rp.gotoPage(rp.getPage() + 1)) {
 				while (rp.hasNext()) {
@@ -287,7 +287,7 @@ public class ThemeServiceImpl implements ThemeService {
 		while (rrp.gotoPage(rrp.getPage() + 1)) {
 			while (rrp.hasNext()) {
 				Reply r = rrp.next();
-				if (Misc.isEmpty(r.getReplayerTargetId())) {
+				if (CommonUtil.isEmpty(r.getReplayerTargetId())) {
 
 				} else {
 					// 自己回复自己的不要

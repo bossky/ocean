@@ -4,10 +4,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import com.bossky.util.CommonUtil;
+
 public class ResultPage<E> implements Iterator<E>, Iterable<E> {
 	public static final int LIMIT_NONE = 2147483647;
 	public static final int LIMIT_DEFAULT = -1;
-	public static final int MAX_PAGE_SIZE = Misc.toInt(
+	public static final int MAX_PAGE_SIZE = CommonUtil.toInt(
 			System.getProperty("tern.ResultPage.maxPageSize"), -1);
 	protected List<E> a;
 	protected int m_PageSize = 10;
