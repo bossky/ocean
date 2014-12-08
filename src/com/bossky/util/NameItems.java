@@ -1,6 +1,5 @@
 package com.bossky.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -15,15 +14,83 @@ import java.util.ListIterator;
  *
  */
 public class NameItems implements List<NameItem> {
-	NameItem[] data;
+
+	protected NameItem[] data;
 
 	protected NameItems(NameItem[] data) {
 		Arrays.sort(data, C);
 		this.data = data;
 	}
 
+	/**
+	 * 构造一个NameItems
+	 * 
+	 * @param ni
+	 * @return
+	 */
 	public static NameItems valueOf(NameItem... ni) {
 		return new NameItems(ni);
+	}
+
+	/**
+	 * 通过id获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public NameItem load(int id) {
+		int low = 0;
+		int high = data.length - 1;
+		int m;
+		while (low <= high) {
+			m = (high + low) >>> 1;
+			if (data[m].id > id) {
+				high = m - 1;
+			} else if (data[m].id < id) {
+				low = m + 1;
+			} else {
+				return data[m];
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 通过name获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public NameItem load(String name) {
+		if (name != null) {
+			Iterator<NameItem> it = iterator();
+			while (it.hasNext()) {
+				NameItem ni = it.next();
+				if (null != ni && name.equals(ni.name)) {
+					return ni;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 通过值获取对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public NameItem load(Object value) {
+		if (value != null) {
+			Iterator<NameItem> it = iterator();
+			while (it.hasNext()) {
+				NameItem ni = it.next();
+				if (null != ni && value.equals(ni.value)) {
+					return ni;
+				}
+			}
+		}
+		return null;
 	}
 
 	static Comparator<NameItem> C = new Comparator<NameItem>() {
@@ -247,7 +314,7 @@ public class NameItems implements List<NameItem> {
 	public List<NameItem> subList(int fromIndex, int toIndex) {
 		NameItem[] newdata = new NameItem[toIndex - fromIndex];
 		System.arraycopy(data, fromIndex, newdata, 0, newdata.length);
-		return new NameItems(data);
+		return new NameItems(newdata);
 	}
 
 	@Override
@@ -327,25 +394,4 @@ public class NameItems implements List<NameItem> {
 
 	}
 
-	public static void main(String[] args) {
-		// NameItem n1 = NameItem.valueOf(1, "sd");
-		// NameItem n2 = NameItem.valueOf(2, "121");
-		// NameItem n3 = NameItem.valueOf(3, "sdfsdf");
-		// NameItem n4 = NameItem.valueOf(4, "sdfsdf");
-		// NameItem n5 = NameItem.valueOf(5, "sdfsdf");
-		// NameItemList list = NameItemList.valueOf(n1, n3, n2, n4, n5);
-		// NameItemList list2 = NameItemList.valueOf(n1, n3);
-		// list.addAll(list2);
-		// System.out.println(list.lastIndexOf(n1));
-		List<String> l1 = new ArrayList<String>();
-		l1.add("aaa");
-		l1.add("bbb");
-		l1.add("aaa");
-		List<String> l2 = new ArrayList<String>();
-		l2.add("aaa");
-		l2.add("ccc");
-		l1.retainAll(l2);
-		System.out.println(l1);
-		System.out.println(l2);
-	}
 }
