@@ -18,7 +18,7 @@ import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.User;
 import com.bossky.ocean.user.UserService;
-import com.bossky.util.CommonUtil;
+import com.bossky.util.Util;
 
 /**
  * 主页、根目录页面控制器
@@ -82,15 +82,15 @@ public class HomeController {
 	@RequestMapping
 	String themes(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String type = CommonUtil.toString(request.getParameter("type"));
-			String labelId = CommonUtil.toString(request.getParameter("labelId"));
+			String type = Util.toString(request.getParameter("type"));
+			String labelId = Util.toString(request.getParameter("labelId"));
 			ResultPage<Label> labelRP = m_ThemeService.getLabels();
 			labelRP.setPageSize(labelRP.getCount());
 			labelRP.gotoPage(1);
 			ResultPage<Theme> themeRP = m_ThemeService.listTheme(type, null,
 					labelId);
 			themeRP.setPageSize(10);
-			themeRP.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+			themeRP.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("labelList", labelRP);
 			request.setAttribute("list", themeRP);
 			request.setAttribute("type", type);
@@ -108,9 +108,9 @@ public class HomeController {
 	@RequestMapping
 	String login(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		String username = CommonUtil.toString(request.getParameter("username"));
-		String password = CommonUtil.toString(request.getParameter("password"));
-		if (!CommonUtil.isEmpty(username) && !CommonUtil.isEmpty(password)) {// 是否为空
+		String username = Util.toString(request.getParameter("username"));
+		String password = Util.toString(request.getParameter("password"));
+		if (!Util.isEmpty(username) && !Util.isEmpty(password)) {// 是否为空
 			User user = m_UserService.getUser(username);
 			if (user == null) {// 用户账号不存在
 				response.getWriter().write("failuser");
@@ -154,8 +154,8 @@ public class HomeController {
 	@RequestMapping
 	String content(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String id = CommonUtil.toString(request.getParameter("id"));
-			String op = CommonUtil.toString(request.getParameter("op"));
+			String id = Util.toString(request.getParameter("id"));
+			String op = Util.toString(request.getParameter("op"));
 			User user = (User) request.getSession().getAttribute("user");
 			Theme theme = m_ThemeService.getTheme(id);
 			if (null == theme) {
@@ -185,8 +185,8 @@ public class HomeController {
 	@RequestMapping
 	String author(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String id = CommonUtil.toString(request.getParameter("id"));
-			if (CommonUtil.isEmpty(id)) {
+			String id = Util.toString(request.getParameter("id"));
+			if (Util.isEmpty(id)) {
 				return "nofind";
 			}
 			User user = m_UserService.getUser(id);
@@ -195,7 +195,7 @@ public class HomeController {
 			}
 
 			ResultPage<Theme> list = m_ThemeService.getMyThemes(user);
-			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+			list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("user", user);
 			request.setAttribute("list", list);
 			return "author";

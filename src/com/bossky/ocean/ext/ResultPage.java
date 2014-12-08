@@ -1,15 +1,14 @@
 package com.bossky.ocean.ext;
 
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import com.bossky.util.CommonUtil;
+import com.bossky.util.Util;
 
 public class ResultPage<E> implements Iterator<E>, Iterable<E> {
-	public static final int LIMIT_NONE = 2147483647;
+	public static final int LIMIT_NONE = Integer.MAX_VALUE;
 	public static final int LIMIT_DEFAULT = -1;
-	public static final int MAX_PAGE_SIZE = CommonUtil.toInt(
+	public static final int MAX_PAGE_SIZE = Util.toInt(
 			System.getProperty("tern.ResultPage.maxPageSize"), -1);
 	protected List<E> a;
 	protected int m_PageSize = 10;
@@ -126,10 +125,6 @@ public class ResultPage<E> implements Iterator<E>, Iterable<E> {
 		return this;
 	}
 
-	public void sort(Comparator<E> paramComparator, int paramInt) {
-		throw new UnsupportedOperationException("此功能不支持：" + paramComparator);
-	}
-
 	protected void reinit() {
 		this.m_PageCount = (getCount() / this.m_PageSize);
 		if (getCount() % this.m_PageSize > 0) {
@@ -141,4 +136,7 @@ public class ResultPage<E> implements Iterator<E>, Iterable<E> {
 		this.m_CurrentPageEnd = 0;
 	}
 
+	public static void main(String[] args) {
+		System.out.println(Integer.MAX_VALUE);
+	}
 }

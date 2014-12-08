@@ -25,7 +25,7 @@ import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.Message;
 import com.bossky.ocean.user.User;
-import com.bossky.util.CommonUtil;
+import com.bossky.util.Util;
 
 /**
  * 用户功能控制器
@@ -68,14 +68,14 @@ public class UserController {
 						+ URLEncoder.encode("你被拉黑,无法发表话题", "UTF-8"));
 				return null;
 			}
-			String op = CommonUtil.toString(request.getParameter("op"));
+			String op = Util.toString(request.getParameter("op"));
 			String msg = null;
 			if ("add".equals(op)) {
-				String title = CommonUtil.toString(request.getParameter("title"));
-				String content = CommonUtil.toString(request.getParameter("content"));
-				if (CommonUtil.isEmpty(title.trim())) {
+				String title = Util.toString(request.getParameter("title"));
+				String content = Util.toString(request.getParameter("content"));
+				if (Util.isEmpty(title.trim())) {
 					msg = "标题不能为空";
-				} else if (CommonUtil.isEmpty(content.trim())) {
+				} else if (Util.isEmpty(content.trim())) {
 					msg = "内容不能为空";
 				} else if (title.length() > 60) {
 					msg = "标题长度必须小于60";
@@ -120,8 +120,8 @@ public class UserController {
 	@RequestMapping
 	String updatetheme(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			String op = CommonUtil.toString(request.getParameter("op"));
-			String id = CommonUtil.toString(request.getParameter("id"));
+			String op = Util.toString(request.getParameter("op"));
+			String id = Util.toString(request.getParameter("id"));
 			Theme theme = m_ThemeService.getTheme(id);
 			User user = (User) request.getSession().getAttribute("user");
 			if (null == user) {
@@ -171,7 +171,7 @@ public class UserController {
 		if (l != null) {
 			list.add(id);
 			String parentId = l.getParentId();
-			if (!CommonUtil.isEmpty(parentId) && !list.contains(parentId)) {
+			if (!Util.isEmpty(parentId) && !list.contains(parentId)) {
 				addParentLabel(list, parentId);
 			}
 		}
@@ -188,7 +188,7 @@ public class UserController {
 	String themeList(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			ResultPage<Theme> list = m_ThemeService.listTheme(null, null, null);
-			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+			list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			return "user/themelist";
 		} catch (Exception e) {
@@ -208,8 +208,8 @@ public class UserController {
 	String operationtheme(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			String op = CommonUtil.toString(request.getParameter("op"));
-			String id = CommonUtil.toString(request.getParameter("id"));
+			String op = Util.toString(request.getParameter("op"));
+			String id = Util.toString(request.getParameter("id"));
 			PrintWriter out = response.getWriter();
 			Theme theme = m_ThemeService.getTheme(id);
 			User user = (User) request.getSession().getAttribute("user");
@@ -274,7 +274,7 @@ public class UserController {
 	String cannalcollcet(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			String id = CommonUtil.toString(request.getParameter("id"));
+			String id = Util.toString(request.getParameter("id"));
 			Theme theme = m_ThemeService.getTheme(id);
 			User user = (User) request.getSession().getAttribute("user");
 			if (null != theme && null != user) {
@@ -301,12 +301,12 @@ public class UserController {
 	String mytheme(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			User user = (User) request.getSession().getAttribute("user");
-			String op = CommonUtil.toString(request.getParameter("op"));
+			String op = Util.toString(request.getParameter("op"));
 			if (null == user) {
 				return "login";
 			}
 			if ("update".equals(op)) {
-				String id = CommonUtil.toString(request.getParameter("id"));
+				String id = Util.toString(request.getParameter("id"));
 				Theme theme = m_ThemeService.getTheme(id);
 				if (null == theme
 						|| !theme.getUserId().equals(user.getId().getId())) {
@@ -327,7 +327,7 @@ public class UserController {
 			}
 			ResultPage<Theme> list = user.getMyThemes();
 			// ResultPage<Theme> list = m_ThemeService.getMyThemes(user);
-			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+			list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			return "user/mytheme";
 
@@ -354,7 +354,7 @@ public class UserController {
 			}
 			// ResultPage<Collect> list = m_ThemeService.getCollectThemes(user);
 			ResultPage<Collect> list = user.getCollectThemes();
-			list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+			list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
 			return "user/mycollecttheme";
 		} catch (Exception e) {
@@ -378,7 +378,7 @@ public class UserController {
 				return "login";
 			} else {
 				ResultPage<Message> list = user.getMessage();
-				list.gotoPage(CommonUtil.toInt(request.getParameter("p"), 1));
+				list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 				request.setAttribute("list", list);
 			}
 			return "user/mymessage";
@@ -401,12 +401,12 @@ public class UserController {
 			HttpServletResponse response) {
 		try {
 			User user = (User) request.getSession().getAttribute("user");
-			String op = CommonUtil.toString(request.getParameter("op"));
-			String themeId = CommonUtil.toString(request.getParameter("themeId"));
-			String commentsId = CommonUtil.toString(request
+			String op = Util.toString(request.getParameter("op"));
+			String themeId = Util.toString(request.getParameter("themeId"));
+			String commentsId = Util.toString(request
 					.getParameter("commentsId"));
-			String replyId = CommonUtil.toString(request.getParameter("replyId"));
-			String content = CommonUtil.toString(request.getParameter("content"));
+			String replyId = Util.toString(request.getParameter("replyId"));
+			String content = Util.toString(request.getParameter("content"));
 			String msg = null;
 			Theme theme = m_ThemeService.getTheme(themeId);
 			if (null == user) {
@@ -471,24 +471,24 @@ public class UserController {
 	String info(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		try {
-			String op = CommonUtil.toString(request.getParameter("op"));
+			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {
 				User user = (User) request.getSession().getAttribute("user");
 				if (null == user) {
 					return "nofind";
 				}
-				String nickname = CommonUtil.toString(request
+				String nickname = Util.toString(request
 						.getParameter("nickname"));// 昵称
-				String phone = CommonUtil.toString(request.getParameter("phone"));// 手机
-				String qq = CommonUtil.toString(request.getParameter("qqnum"));// qq
-				String school = CommonUtil.toString(request.getParameter("school"));// 毕业学院
-				String education = CommonUtil.toString(request
+				String phone = Util.toString(request.getParameter("phone"));// 手机
+				String qq = Util.toString(request.getParameter("qqnum"));// qq
+				String school = Util.toString(request.getParameter("school"));// 毕业学院
+				String education = Util.toString(request
 						.getParameter("education"));// 最高学历
-				String job = CommonUtil.toString(request.getParameter("job"));// 工作职位
-				String signature = CommonUtil.toString(request
+				String job = Util.toString(request.getParameter("job"));// 工作职位
+				String signature = Util.toString(request
 						.getParameter("signature"));// 个性签名
 				String msg = null;
-				if (CommonUtil.isEmpty(nickname)) {
+				if (Util.isEmpty(nickname)) {
 					msg = "昵称不能为空!";
 				} else if (nickname.trim().length() > 15) {
 					msg = "昵称字符超长";
@@ -504,9 +504,9 @@ public class UserController {
 					msg = "工作职位字符超长";
 				} else if (signature.length() > 200) {
 					msg = "个性签名字符超长";
-				} else if (qq.trim().length() > 0 && !CommonUtil.isNumber(qq)) {
+				} else if (qq.trim().length() > 0 && !Util.isNumber(qq)) {
 					msg = "QQ只能是数字";
-				} else if (phone.trim().length() > 0 && !CommonUtil.isNumber(phone)) {
+				} else if (phone.trim().length() > 0 && !Util.isNumber(phone)) {
 					msg = "手机只能是数字";
 				} else if (phone.trim().length() > 0
 						&& phone.trim().length() != 11) {
@@ -543,15 +543,15 @@ public class UserController {
 	String updatepass(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		try {
-			String op = CommonUtil.toString(request.getParameter("op"));
+			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {
 				User user = (User) request.getSession().getAttribute("user");
 				if (null == user) {
 					return "nofind";
 				}
-				String oldpass = CommonUtil.toString(request.getParameter("oldpass"));// 旧密码
-				String newpass = CommonUtil.toString(request.getParameter("newpass"));// 新密码
-				String renewpass = CommonUtil.toString(request
+				String oldpass = Util.toString(request.getParameter("oldpass"));// 旧密码
+				String newpass = Util.toString(request.getParameter("newpass"));// 新密码
+				String renewpass = Util.toString(request
 						.getParameter("renewpass"));// 重复新密码
 				if (oldpass.isEmpty() || newpass.isEmpty()
 						|| renewpass.isEmpty()) {// 如果密码为空
@@ -603,7 +603,7 @@ public class UserController {
 	 */
 	@RequestMapping
 	String okmsg(HttpServletRequest request, HttpServletResponse response) {
-		String msg = CommonUtil.toString(request.getParameter("msg"));
+		String msg = Util.toString(request.getParameter("msg"));
 		request.setAttribute("msg", msg);
 		return "user/okmsg";
 	}
