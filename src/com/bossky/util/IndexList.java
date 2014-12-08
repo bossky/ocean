@@ -77,12 +77,25 @@ public class IndexList<E extends Indexable> implements Iterable<E> {
 		return (E) data[id];
 	}
 
+	public int size() {
+		return size;
+	}
+
 	private void sureRange(int i) {
 		if (i > data.length) {
 			Object[] newdata = new Object[i + (i >> 1)];
 			System.arraycopy(data, 0, newdata, 0, data.length);
 			data = newdata;
 		}
+	}
+
+	public E[] toArray() {
+		Object[] newData = new Object[size];
+		Iterator<E> it = iterator();
+		for (int i = 0; i < newData.length; i++) {
+			newData[i] = it.next();
+		}
+		return (E[]) newData;
 	}
 
 	@Override
