@@ -1,6 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!-- build release需要创建一个svn.properties文件于同一目录下（注：别提交svn.properties文件），其内容为如下： 
-	svn.username=你的SVN用户名 svn.password=你的SVN登录密码 -->
 <project name="build" default="jar" basedir=".">
 	<!--class文件目录 -->
 	<property name="class.dir" value="webapp/WEB-INF/classes" />
