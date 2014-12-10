@@ -7,6 +7,7 @@
 <script type="text/javascript" src="/js/gotop.js"></script>
 <link rel="stylesheet" href="/css/gotop.css" type="text/css">
 <link rel="stylesheet" href="/css/login.css" type="text/css">
+<link rel="shortcut icon" href="favicon.ico">
 <script>
 $(function(){
 	$("#close").click(function(){
