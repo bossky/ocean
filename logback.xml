@@ -12,7 +12,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>logs/%d{yyyyMMdd}.log</FileNamePattern>
+			<FileNamePattern>${jetty.logs}/%d{yyyyMMdd}.log</FileNamePattern>
 			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
@@ -24,18 +24,21 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>logs/%d{yyyyMMdd}_debug.log
+			<FileNamePattern>${jetty.logs}/%d{yyyyMMdd}_debug.log
 			</FileNamePattern>
 			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyyMMdd HH:mm:ss.SSS}[%thread]%-5level %logger{50}%msg%n
+			<pattern>%d{yyyyMMdd HH:mm:ss.SSS}%msg%n
 			</pattern>
 		</layout>
 	</appender>
-	<!-- 
+	
+	<logger name="com.bossky.ocean.filter.AccessFilter" level="DEBUG"
+		additivity="false">
+		<appender-ref ref="file-by-debug" />
+	</logger>
 	<root level="INFO">
 		<appender-ref ref="file" />
 	</root>
-	 -->
 </configuration>
