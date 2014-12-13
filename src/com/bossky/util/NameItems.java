@@ -14,7 +14,7 @@ import java.util.ListIterator;
  *
  */
 public class NameItems implements List<NameItem> {
-
+	/** 存储数组 */
 	protected NameItem[] data;
 
 	protected NameItems(NameItem[] data) {
@@ -153,7 +153,7 @@ public class NameItems implements List<NameItem> {
 		NameItem[] newdata = new NameItem[size() + 1];
 		System.arraycopy(data, 0, newdata, 0, data.length);
 		newdata[data.length] = e;
-		Arrays.sort(newdata,SORT_BY_ID);
+		Arrays.sort(newdata, SORT_BY_ID);
 		data = newdata;
 		return true;
 	}

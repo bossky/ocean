@@ -8,11 +8,7 @@ public class SQLUtil {
 	 * @return
 	 */
 	public static String escape(Object obj) {
-		if (null == obj) {
-			return null;
-		}
-		String val = obj.toString();
-		return val.replace("'", "''");
+		return escape(obj.toString());
 	}
 
 	/**
@@ -30,8 +26,4 @@ public class SQLUtil {
 		return val.replace("'", "''");
 	}
 
-	public static void main(String[] args) {
-		String sql = " hello'  dfdf";
-		System.out.println(escape(sql));
-	}
 }
