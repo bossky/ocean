@@ -1,7 +1,5 @@
 package com.bossky.business;
 
-import com.bossky.data.DataManager;
-
 /**
  * 助手
  * 
@@ -9,5 +7,10 @@ import com.bossky.data.DataManager;
  *
  */
 public interface Assistant {
-	public <E> DataManager<E> getDataManager(Class<? extends E> clazz);
+	/**
+	 * 保存实体类
+	 * 
+	 * @param business
+	 */
+	public void save(Entity business);
 }

@@ -2,25 +2,20 @@ package com.bossky.business;
 
 import javax.annotation.Resource;
 
-import com.bossky.data.DataManager;
-
 /**
  * 业务类
  * 
  * @author bo
  *
  */
-public class Business<E extends Assistant> {
-	/** 业务助手 */
+public abstract class AbstractEntity<E extends Assistant> implements Entity {
+	/** 助手 */
 	volatile E assistant;
-	/** 数据管理 */
-	volatile DataManager<E> dataManager;
-	volatile int version;
 
 	@Resource
 	protected String id;
 
-	public Business(E assistant) {
+	public AbstractEntity(E assistant) {
 		this.assistant = assistant;
 	}
 
@@ -44,7 +39,7 @@ public class Business<E extends Assistant> {
 	 * 保存数据
 	 */
 	public void save() {
-		assistant.getDataManager(getClass()).save(this);
+		assistant.save(this);
 	}
 
 	/**
