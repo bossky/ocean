@@ -3,14 +3,14 @@ package com.bossky.data;
 import java.util.Collection;
 
 /**
- * 映射类
+ * 对象映射类
  * 
  * @author bo
  *
  */
 public interface Mapper<E> {
 	/**
-	 * 获得一个类对象
+	 * 获得一个类对象,获取失败返回null
 	 * 
 	 * @return
 	 */

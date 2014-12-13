@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bossky.data.DataManager;
@@ -32,12 +33,12 @@ import com.bossky.data.search.SearchCondition;
  * @param <E>
  */
 public class SqliteManager<E> implements DataManager<E> {
-	final static org.slf4j.Logger _Logger = LoggerFactory
-			.getLogger(SqliteManager.class);
+	final static Logger _Logger = LoggerFactory.getLogger(SqliteManager.class);
 
 	SqliteFactory factory;
 	/** 管理者名称 */
 	protected String name;
+	/** 类的mapper */
 	protected Mapper<E> mapper;
 
 	protected SqliteManager(SqliteFactory factory, Mapper<E> mapper) {

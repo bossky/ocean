@@ -3,7 +3,7 @@ package com.bossky.data;
 import java.lang.annotation.Annotation;
 
 /**
- * 元信息
+ * 属性映射类
  * 
  * @author bo
  *
@@ -36,8 +36,9 @@ public interface Meta {
 	 * 
 	 * @param obj
 	 * @param value
+	 * @return 返回是否设置成功
 	 */
-	public void setValue(Object obj, Object value);
+	public boolean setValue(Object obj, Object value);
 
 	/**
 	 * 是否包括注释

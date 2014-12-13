@@ -2,6 +2,7 @@ package com.bossky.util;
 
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -306,6 +307,28 @@ public class Util {
 	 */
 	public static boolean isEmpty(String var) {
 		return var == null ? true : var.trim().length() == 0 ? true : false;
+	}
+
+	/**
+	 * 判断数组是否为空
+	 * 
+	 * @param arr
+	 * @return
+	 */
+	public static <E> boolean isEmpty(E[] arr) {
+		return null == arr ? true : arr.length == 0 ? true : false;
+	}
+
+	/**
+	 * 判断集合是否为空
+	 * 
+	 * @param collection
+	 * @return
+	 */
+	public static <E> boolean isEmpty(Collection<E> collection) {
+		return null == collection ? true : collection.size() == 0 ? true
+				: false;
+
 	}
 
 	/**

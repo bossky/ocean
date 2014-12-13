@@ -18,7 +18,7 @@ public class NameItems implements List<NameItem> {
 	protected NameItem[] data;
 
 	protected NameItems(NameItem[] data) {
-		Arrays.sort(data, C);
+		Arrays.sort(data, SORT_BY_ID);
 		this.data = data;
 	}
 
@@ -93,7 +93,7 @@ public class NameItems implements List<NameItem> {
 		return null;
 	}
 
-	static Comparator<NameItem> C = new Comparator<NameItem>() {
+	static Comparator<NameItem> SORT_BY_ID = new Comparator<NameItem>() {
 
 		@Override
 		public int compare(NameItem o1, NameItem o2) {
@@ -153,7 +153,7 @@ public class NameItems implements List<NameItem> {
 		NameItem[] newdata = new NameItem[size() + 1];
 		System.arraycopy(data, 0, newdata, 0, data.length);
 		newdata[data.length] = e;
-		Arrays.sort(newdata);
+		Arrays.sort(newdata,SORT_BY_ID);
 		data = newdata;
 		return true;
 	}
@@ -196,7 +196,7 @@ public class NameItems implements List<NameItem> {
 		NameItem[] newdata = new NameItem[arr.length + data.length];
 		System.arraycopy(data, 0, newdata, 0, data.length);
 		System.arraycopy(arr, 0, newdata, data.length, arr.length);
-		Arrays.sort(newdata, C);
+		Arrays.sort(newdata, SORT_BY_ID);
 		data = newdata;
 		return true;
 	}

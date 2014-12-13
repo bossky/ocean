@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import com.bossky.data.DataFactory;
 import com.bossky.data.DataManager;
+import com.bossky.data.Mapper;
 import com.bossky.data.annotation.AnnotionMapper;
-import com.bossky.data.business.Di;
 
 /**
  * sqlite工厂
@@ -38,28 +38,28 @@ public class SqliteFactory implements DataFactory {
 		this.url = url;
 	}
 
-	public synchronized <E> SqliteManager<E> createDataManage(Class<E> clazz) {
-		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz);
+	@Override
+	public synchronized <E> SqliteManager<E> createDataManage(Class<E> clazz,
+			Object... objs) {
 		SqliteManager<E> m;
 		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
 		if (m != null) {
 			return m;
 		}
+		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz, objs);
 		m = new SqliteManager<E>(this, mapper);
 		map.put(clazz.getSimpleName(), m);
 		return m;
 	}
 
-	public synchronized <E> SqliteManager<E> createDataManage(Class<E> clazz,
-			Di di) {
+	@Override
+	public synchronized <E> SqliteManager<E> createDataManage(Mapper<E> mapper) {
 		SqliteManager<E> m;
-		m = (SqliteManager<E>) map.get(clazz.getSimpleName());
+		m = (SqliteManager<E>) map.get(mapper.getName());
 		if (m != null) {
 			return m;
 		}
-		AnnotionMapper<E> mapper = AnnotionMapper.valueOf(clazz, di);
 		m = new SqliteManager<E>(this, mapper);
-		map.put(clazz.getSimpleName(), m);
 		return m;
 	}
 
