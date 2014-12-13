@@ -54,8 +54,6 @@ function infocheck(){
 						<tr>
 							<td  class="tdl">邮箱：</td><td class="tdr" >${sessionScope.user.email}</td>
 							<td  class="tdl">手机：</td><td class="tdr" ><input   class="input"  type="text" id="phone"  maxlength="15"  name="phone"  value="${sessionScope.user.phone}"/></td>
-							<td  class="tdl">培训日期：</td><td class="tdr" ><fmt:formatDate value="${sessionScope.user.trainingDate}" pattern='yyyy-MM-dd' /></td>
-						</tr>
 					</table>
 				</div>
 			</div>

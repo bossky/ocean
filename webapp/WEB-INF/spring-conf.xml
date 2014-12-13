@@ -45,6 +45,7 @@
 	<bean id="userService" class="com.bossky.ocean.user.impl.UserServiceImpl"
 		scope="singleton">
 		<constructor-arg ref="factory" />
+		<property name="admin" value="admin" />
 	</bean>
 
 	<bean id="themeService" class="com.bossky.ocean.theme.impl.ThemeServiceImpl"

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,7 +87,8 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("add".equals(op)) {// 添加新用户
-				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession()
+						.getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -101,8 +101,6 @@ public class AdminController {
 						.getParameter("username"));
 				String password = Util.toString(request
 						.getParameter("password"));
-				Date trainingDate = Util.parseDate(Util.toString(request
-						.getParameter("trainingDate")));
 				if (Util.isEmpty(username)) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("用户名不能为空", "utf-8"));
@@ -149,9 +147,6 @@ public class AdminController {
 							+ URLEncoder.encode("注册用户失败,用户名已存在!", "utf-8"));
 					return null;
 				}
-				if (null != trainingDate) {
-					u.setTrainingDate(trainingDate);
-				}
 				response.sendRedirect("userlist.jspx?msg="
 						+ URLEncoder.encode("注册用户成功!", "utf-8"));
 				return null;
@@ -174,7 +169,8 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {// 修改
-				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession()
+						.getAttribute("user");
 				if (null == admin) {
 					return "login";
 				}
@@ -186,16 +182,13 @@ public class AdminController {
 				if (null == user) {
 					return "nofind";
 				}
-				Date trainingDate = Util.parseDate(Util.toString(request
-						.getParameter("trainingDate")));
-				user.setTrainingDate(trainingDate);// 修改培训日期
 				response.sendRedirect("userlist.jspx?msg="
 						+ URLEncoder.encode("修改成功", "UTF-8"));
 				return null;
 			}
 			return "admin/updateuser";
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -209,7 +202,8 @@ public class AdminController {
 		try {
 			String op = request.getParameter("op");
 			if ("resetpass".equals(op)) {
-				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession()
+						.getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -238,7 +232,7 @@ public class AdminController {
 			}
 			return "admin/resetpass";
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -253,7 +247,8 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("pullblack".equals(op)) {// 拉黑
-				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession()
+						.getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -268,7 +263,8 @@ public class AdminController {
 				user.pullBlack();
 				response.getWriter().write("shield");
 			} else if ("recover".equals(op)) {// 恢复
-				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession()
+						.getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -285,7 +281,7 @@ public class AdminController {
 			}
 			return null;
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -331,7 +327,7 @@ public class AdminController {
 			 * .getLabels(),ResultPage.LIMIT_NONE)); }
 			 */
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 		return "admin/addlabel";
@@ -354,7 +350,7 @@ public class AdminController {
 			// ResultPages.toList(m_ThemeService.getLabels(),ResultPage.LIMIT_NONE));
 			return "admin/labellist";
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -386,7 +382,7 @@ public class AdminController {
 					+ URLEncoder.encode("删除成功", "utf-8"));
 			return null;
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -429,7 +425,7 @@ public class AdminController {
 					m_ThemeService.getLabels(), ResultPage.LIMIT_NONE));
 			return "admin/themelist";
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 
@@ -456,7 +452,7 @@ public class AdminController {
 			}
 			return null;
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}
@@ -495,7 +491,7 @@ public class AdminController {
 			request.setAttribute("list", list);
 			return "admin/commentlist";
 		} catch (Exception e) {
-				_Logger.error("出错了", e);
+			_Logger.error("出错了", e);
 			return "error";
 		}
 	}

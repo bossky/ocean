@@ -47,13 +47,6 @@ public class HomeController {
 		themeRP.gotoPage(1);
 		request.setAttribute("labelList", labelRP);
 		request.setAttribute("themeList", themeRP);
-		ResultPage<OceanUser> rp = m_UserService.listUser("admin");
-		rp.gotoPage(1);
-		if (null == rp.next()) {
-			OceanUser user = m_UserService.addUser("admin", "admin",
-					OceanUser.ROLE_ADMIN.id);
-			_Logger.info("初始化用户:admin,密码:admin,类名:" + user);
-		}
 		return "index";
 	}
 
@@ -156,7 +149,8 @@ public class HomeController {
 		try {
 			String id = Util.toString(request.getParameter("id"));
 			String op = Util.toString(request.getParameter("op"));
-			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute(
+					"user");
 			Theme theme = m_ThemeService.getTheme(id);
 			if (null == theme) {
 				return "nofind";

@@ -1,7 +1,5 @@
 package com.bossky.ocean.user;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
@@ -48,9 +46,6 @@ public class OceanUser extends Persistent<UserDi> {
 	/** 个性签名 */
 	@Resource
 	private String signature;
-	/** 培训日期 */
-	@Resource
-	private Date trainingDate;
 	/** 角色 */
 	@Resource
 	private int role;
@@ -312,12 +307,4 @@ public class OceanUser extends Persistent<UserDi> {
 		markPersistenceUpdate();
 	}
 
-	public Date getTrainingDate() {
-		return trainingDate;
-	}
-
-	public void setTrainingDate(Date trainingDate) {
-		this.trainingDate = trainingDate;
-		markPersistenceUpdate();
-	}
 }

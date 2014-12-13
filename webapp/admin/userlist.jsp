@@ -56,10 +56,8 @@ body{
 								</c:forEach>
 							</select> 
 						</td>
-						<td class="textright">培训日期：</td>
+						<td class="textright"></td>
 						<td>
-							<input  class="input"  type="text" name="trainingDate" class="Wdate" vld="{required:true}" 
-										onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})"/>
 						</td>
 					</tr>
 					<tr>
@@ -78,7 +76,6 @@ body{
 				<td width="22%">用户名</td>
 				<td width="22%">昵称</td>
 				<td width="10%">角色</td>
-				<td width="10%">培训日期</td>
 				<td width="10%">状态</td>
 				<td width="15%">操作</td>
 			</tr>
@@ -92,7 +89,6 @@ body{
 							<c:if test="${!user.admin}">普通用户 </c:if>
 							<c:if test="${user.admin}">管理员 </c:if>
 						</td>
-						<td><fmt:formatDate value="${user.trainingDate}" pattern='yyyy-MM-dd' var="tnd" />${tnd}</td>
 						<td id="status_${user.id}"><c:if test="${user.black}"><span class="red">已拉黑</span></c:if><c:if test="${!user.black}">正常</c:if> </td>
 						
 						<td>
@@ -114,7 +110,6 @@ body{
 			<c:forEach  begin="0" end="${9-(list.count-((list.page-1)*list.pageSize)) }" varStatus="s">
 				<tr>
 					<td>${s.count+(list.count-((list.page-1)*list.pageSize))+((list.page-1)*list.pageSize)}</td>
-					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>

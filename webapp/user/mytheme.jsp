@@ -33,7 +33,6 @@
 				<p>昵称：<c:out value="${sessionScope.user.nickName}"/></p>
 				<p>QQ：<c:out value="${sessionScope.user.QQ}"/></p>
 				<p>邮箱：<c:out value="${sessionScope.user.email}"/></p>
-				<p>培训日期：<fmt:formatDate value="${sessionScope.user.trainingDate}" pattern='yyyy-MM-dd' /></p>
 			</div>
 		</div>
 		<div class="theam_r fr">

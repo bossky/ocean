@@ -174,18 +174,19 @@ public class SqliteManager<E> implements DataManager<E> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("insert into ").append(name).append("(");
 		Collection<Meta> col = mapper.metas();
+		Meta key = mapper.getKey();
+		sb.append(key.getName());
 		Iterator<Meta> it = col.iterator();
 		while (it.hasNext()) {
-			Meta m = it.next();
-			sb.append(m.getName()).append(" ");
-			if (it.hasNext()) {
-				sb.append(" , ");
-			}
+			sb.append(",");
+			sb.append(it.next().getName());
 		}
 		sb.append(") ");
 		it = col.iterator();
 		sb.append("values(");
+		sb.append("'").append(SQLUtil.escape(key.getValue(obj))).append("'");
 		while (it.hasNext()) {
+			sb.append(" , ");
 			Meta m = it.next();
 			Object value = m.getValue(obj);
 			if (value instanceof Date) {
@@ -193,9 +194,6 @@ public class SqliteManager<E> implements DataManager<E> {
 				value = format(date);// 格式化日期
 			}
 			sb.append("'").append(SQLUtil.escape(value)).append("'");
-			if (it.hasNext()) {
-				sb.append(" , ");
-			}
 		}
 		sb.append(");");
 		return sb.toString();
@@ -300,6 +298,9 @@ public class SqliteManager<E> implements DataManager<E> {
 				E e = mapper.getInsantce();
 				for (Meta m : mapper.metas()) {
 					Object o = getObject(rs, m);
+					if ("null".equals(o)) {
+						o = null;
+					}
 					m.setValue(e, o);
 				}
 				return e;

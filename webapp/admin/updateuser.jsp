@@ -33,9 +33,7 @@
 					<tr class="h35">
 						<td>培训日期：</td>
 						<td>
-								<input type="text" id="udptrainingDate" name="trainingDate" value="<fmt:formatDate value="${user.trainingDate}" pattern='yyyy-MM-dd' />" 
-								class="Wdate" vld="{required:true}" 	onfocus="WdatePicker({isShowClear:true,readOnly:true,dateFmt:'yyyy-MM-dd'})">
-						</td>
+s						</td>
 					</tr>
 					<tr class="h40">
 						<td colspan="2"><input class="button" type="submit" value="修改">&nbsp;&nbsp;

@@ -9,6 +9,12 @@ import com.bossky.user.Role;
 import com.bossky.user.User;
 import com.bossky.util.Util;
 
+/**
+ * 用户适配器
+ * 
+ * @author bo
+ *
+ */
 public class UserAdapter implements User {
 
 	@Override
