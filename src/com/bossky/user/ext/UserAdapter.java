@@ -1,4 +1,4 @@
-package com.bossky.user.impl;
+package com.bossky.user.ext;
 
 import java.util.Collections;
 import java.util.Date;

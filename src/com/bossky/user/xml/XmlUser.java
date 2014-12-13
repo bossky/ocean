@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.bossky.user.Right;
 import com.bossky.user.Role;
-import com.bossky.user.impl.UserAdapter;
+import com.bossky.user.ext.UserAdapter;
 import com.bossky.util.Indexable;
 import com.bossky.util.Util;
 
