@@ -11,7 +11,7 @@ import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.util.NameItem;
 
 /**
@@ -36,7 +36,7 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	public static final NameItem[] ALL_STATUS = { STATUS_SHIELD, STATUS_NORMAL };
 	public static final String REINDEX_TYPE = "C:";
 
-	public Comments(ThemeDi di, Theme theme, User user, String content) {
+	public Comments(ThemeDi di, Theme theme, OceanUser user, String content) {
 		super(di);
 		id = theme.getId().getId() + Long.valueOf(System.currentTimeMillis());
 		themeId = theme.getId().getId();
@@ -65,7 +65,7 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	 * 
 	 * @return
 	 */
-	public User getCommentator() {
+	public OceanUser getCommentator() {
 		return getBusinessDi().getUser(commentetatorId);
 	}
 
@@ -117,12 +117,12 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	 * @param content
 	 * @return
 	 */
-	public Reply reply(User user, String content) {
+	public Reply reply(OceanUser user, String content) {
 		// 被屏蔽时不能回复
 		if (isShield()) {
 			return null;
 		}
-		User commentator = getCommentator();
+		OceanUser commentator = getCommentator();
 		// 如果话题发表者不是评论者则新消息加1
 		if (!user.getId().getId().equals(commentator.getId().getId())) {
 			getCommentator().acquireMessage();
@@ -151,7 +151,7 @@ public class Comments extends Persistent<ThemeDi> implements Message {
 	}
 
 	@Override
-	public User getSender() {
+	public OceanUser getSender() {
 		return getCommentator();
 	}
 

@@ -5,7 +5,7 @@ import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 业务依赖接口
@@ -21,7 +21,7 @@ public interface UserDi extends Di {
 	 *            User对象
 	 * @return
 	 */
-	public ResultPage<Message> getMessages(User user);
+	public ResultPage<Message> getMessages(OceanUser user);
 
 	/**
 	 * 获取我的收藏
@@ -30,7 +30,7 @@ public interface UserDi extends Di {
 	 *            User对象
 	 * @return
 	 */
-	public ResultPage<Collect> getCollocetThems(User user);
+	public ResultPage<Collect> getCollocetThems(OceanUser user);
 
 	/**
 	 * 获取我的话题
@@ -39,7 +39,7 @@ public interface UserDi extends Di {
 	 *            User对象
 	 * @return
 	 */
-	public ResultPage<Theme> getMyThemes(User user);
+	public ResultPage<Theme> getMyThemes(OceanUser user);
 
 	/**
 	 * 发表话题的方法
@@ -51,5 +51,5 @@ public interface UserDi extends Di {
 	 * @param content
 	 *            文章内容
 	 */
-	public Theme addTheme(User user, String title, String content);
+	public Theme addTheme(OceanUser user, String title, String content);
 }

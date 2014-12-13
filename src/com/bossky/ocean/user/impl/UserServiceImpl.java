@@ -10,7 +10,7 @@ import com.bossky.ocean.theme.Collect;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.ocean.user.UserService;
 import com.bossky.ocean.user.di.UserDi;
 
@@ -25,17 +25,21 @@ public class UserServiceImpl implements UserService {
 	private ThemeService m_ThemeService;
 
 	final UserDiImpl m_UserDi;
-	DataManager<User> userDM;
+	DataManager<OceanUser> userDM;
 	DataFactory factory;
 
 	public UserServiceImpl(DataFactory factory) {
 		this.factory = factory;
 		m_UserDi = new UserDiImpl();
-		userDM = factory.createDataManage(User.class, m_UserDi);
+		userDM = factory.createDataManage(OceanUser.class, m_UserDi);
 	}
 
-	public User addUser(String username, String password, Integer role) {
-		ResultPage<User> rp = listUser(username);
+	public void setAdmin(String admin) {
+		addUser(admin, admin, OceanUser.ROLE_ADMIN.id);
+	}
+
+	public OceanUser addUser(String username, String password, Integer role) {
+		ResultPage<OceanUser> rp = listUser(username);
 		while (rp.gotoPage(rp.getPage() + 1)) {
 			while (rp.hasNext()) {
 				if (rp.next().getUserName().equals(username)) {// 检测用户是否存在
@@ -43,14 +47,14 @@ public class UserServiceImpl implements UserService {
 				}
 			}
 		}
-		return new User(m_UserDi, username, password, role);
+		return new OceanUser(m_UserDi, username, password, role);
 	}
 
-	public User getUser(String id) {
+	public OceanUser getUser(String id) {
 		return userDM.get(id);
 	}
 
-	public ResultPage<User> listUser(String username) {
+	public ResultPage<OceanUser> listUser(String username) {
 		return ResultPages.toResultPage(userDM.list(username));
 	}
 
@@ -60,22 +64,22 @@ public class UserServiceImpl implements UserService {
 		}
 
 		@Override
-		public ResultPage<Collect> getCollocetThems(User user) {
+		public ResultPage<Collect> getCollocetThems(OceanUser user) {
 			return m_ThemeService.getCollectThemes(user);
 		}
 
 		@Override
-		public ResultPage<Message> getMessages(User user) {
+		public ResultPage<Message> getMessages(OceanUser user) {
 			return m_ThemeService.getMessage(user);
 		}
 
 		@Override
-		public ResultPage<Theme> getMyThemes(User user) {
+		public ResultPage<Theme> getMyThemes(OceanUser user) {
 			return m_ThemeService.getMyThemes(user);
 		}
 
 		@Override
-		public Theme addTheme(User user, String title, String content) {
+		public Theme addTheme(OceanUser user, String title, String content) {
 			return m_ThemeService.createTheme(user, title, content);
 		}
 

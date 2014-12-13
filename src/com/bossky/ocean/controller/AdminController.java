@@ -25,7 +25,7 @@ import com.bossky.ocean.theme.Label;
 import com.bossky.ocean.theme.Reply;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.ocean.user.UserService;
 import com.bossky.util.Util;
 
@@ -65,10 +65,10 @@ public class AdminController {
 	@RequestMapping
 	String userlist(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			ResultPage<User> list = m_UserService.listUser(null);
+			ResultPage<OceanUser> list = m_UserService.listUser(null);
 			list.gotoPage(Util.toInt(request.getParameter("p"), 1));
 			request.setAttribute("list", list);
-			request.setAttribute("rolelist", User.ALL_ROLE);// 角色列表
+			request.setAttribute("rolelist", OceanUser.ALL_ROLE);// 角色列表
 			return "admin/userlist";
 		} catch (Exception e) {
 			_Logger.error("出错了", e);
@@ -88,7 +88,7 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("add".equals(op)) {// 添加新用户
-				User admin = (User) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -125,12 +125,12 @@ public class AdminController {
 					return null;
 				}
 				int i;
-				for (i = 0; i < User.ALL_ROLE.length; i++) {
-					if (role == User.ALL_ROLE[i].id) {
+				for (i = 0; i < OceanUser.ALL_ROLE.length; i++) {
+					if (role == OceanUser.ALL_ROLE[i].id) {
 						break;
 					}
 				}
-				if (i == User.ALL_ROLE.length) {
+				if (i == OceanUser.ALL_ROLE.length) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("角色不存在", "utf-8"));
 					return null;
@@ -143,7 +143,7 @@ public class AdminController {
 							+ URLEncoder.encode("添加失败,用户名存在特殊字符", "utf-8"));
 					return null;
 				}
-				User u = m_UserService.addUser(username, password, role);
+				OceanUser u = m_UserService.addUser(username, password, role);
 				if (null == u) {
 					response.sendRedirect("userlist.jspx?msg="
 							+ URLEncoder.encode("注册用户失败,用户名已存在!", "utf-8"));
@@ -174,7 +174,7 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {// 修改
-				User admin = (User) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
 				if (null == admin) {
 					return "login";
 				}
@@ -182,7 +182,7 @@ public class AdminController {
 					return "nofind";
 				}
 				String id = Util.toString(request.getParameter("id"));
-				User user = m_UserService.getUser(id);
+				OceanUser user = m_UserService.getUser(id);
 				if (null == user) {
 					return "nofind";
 				}
@@ -209,7 +209,7 @@ public class AdminController {
 		try {
 			String op = request.getParameter("op");
 			if ("resetpass".equals(op)) {
-				User admin = (User) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -217,7 +217,7 @@ public class AdminController {
 					return "nofind";
 				}
 				String id = request.getParameter("id");
-				User user = m_UserService.getUser(id);
+				OceanUser user = m_UserService.getUser(id);
 				if (null == user) {
 					return "login";
 				}
@@ -253,7 +253,7 @@ public class AdminController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("pullblack".equals(op)) {// 拉黑
-				User admin = (User) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -261,14 +261,14 @@ public class AdminController {
 					return "nofind";
 				}
 				String id = Util.toString(request.getParameter("id"));
-				User user = m_UserService.getUser(id);
+				OceanUser user = m_UserService.getUser(id);
 				if (null == user) {
 					return "login";
 				}
 				user.pullBlack();
 				response.getWriter().write("shield");
 			} else if ("recover".equals(op)) {// 恢复
-				User admin = (User) request.getSession().getAttribute("user");
+				OceanUser admin = (OceanUser) request.getSession().getAttribute("user");
 				if (null == admin) {
 					return "nofind";
 				}
@@ -276,7 +276,7 @@ public class AdminController {
 					return "nofind";
 				}
 				String id = Util.toString(request.getParameter("id"));
-				User user = m_UserService.getUser(id);
+				OceanUser user = m_UserService.getUser(id);
 				if (null == user) {
 					return "login";
 				}

@@ -17,7 +17,7 @@ import com.bossky.util.NameItem;
  * @author Zhao_Gq
  * 
  */
-public class User extends Persistent<UserDi> {
+public class OceanUser extends Persistent<UserDi> {
 	/** 用户账号（登录名）与邮箱相同 */
 	@Resource
 	private String userName;
@@ -79,7 +79,7 @@ public class User extends Persistent<UserDi> {
 	 * @param role
 	 *            角色
 	 */
-	public User(UserDi di, String username, String password, Integer role) {
+	public OceanUser(UserDi di, String username, String password, Integer role) {
 		super(di);
 		id = username;
 		userName = username;
@@ -94,7 +94,7 @@ public class User extends Persistent<UserDi> {
 	/**
 	 * @param di
 	 */
-	protected User(UserDi di) {
+	protected OceanUser(UserDi di) {
 		super(di);
 	}
 

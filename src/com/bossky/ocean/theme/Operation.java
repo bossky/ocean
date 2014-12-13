@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import com.bossky.data.business.Persistent;
 import com.bossky.ocean.theme.di.ThemeDi;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 操作业务抽象类，给Collect、Praise继承用的
@@ -28,7 +28,7 @@ public abstract class Operation extends Persistent<ThemeDi> {
 
 	}
 
-	public Operation(ThemeDi di, User user, Theme theme) {
+	public Operation(ThemeDi di, OceanUser user, Theme theme) {
 		super(di);
 		id = user.getId().getId() + ID_TYPE + theme.getId().getId()
 				+ Long.toHexString(System.currentTimeMillis());
@@ -38,7 +38,7 @@ public abstract class Operation extends Persistent<ThemeDi> {
 		markPersistenceUpdate();
 	}
 
-	public User getUser() {
+	public OceanUser getUser() {
 		return getBusinessDi().getUser(userId);
 	}
 

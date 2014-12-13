@@ -24,7 +24,7 @@ import com.bossky.ocean.theme.Reply;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.util.Util;
 
 /**
@@ -59,7 +59,7 @@ public class UserController {
 	@RequestMapping
 	String addtheme(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null == user) {
 				return "login";
 			}
@@ -123,7 +123,7 @@ public class UserController {
 			String op = Util.toString(request.getParameter("op"));
 			String id = Util.toString(request.getParameter("id"));
 			Theme theme = m_ThemeService.getTheme(id);
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null == user) {
 				return "login";
 			}
@@ -212,7 +212,7 @@ public class UserController {
 			String id = Util.toString(request.getParameter("id"));
 			PrintWriter out = response.getWriter();
 			Theme theme = m_ThemeService.getTheme(id);
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null == theme || null == user) {
 				String str = "{root: [{result:'null',value:'0'}]} ";
 				out.write(str);
@@ -276,7 +276,7 @@ public class UserController {
 		try {
 			String id = Util.toString(request.getParameter("id"));
 			Theme theme = m_ThemeService.getTheme(id);
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null != theme && null != user) {
 				theme.cannalCollected(user);
 				response.sendRedirect("mycollecttheme.jspx?msg="
@@ -300,7 +300,7 @@ public class UserController {
 	@RequestMapping
 	String mytheme(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			String op = Util.toString(request.getParameter("op"));
 			if (null == user) {
 				return "login";
@@ -348,7 +348,7 @@ public class UserController {
 	String mycollecttheme(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null == user) {
 				return "login";
 			}
@@ -373,7 +373,7 @@ public class UserController {
 	@RequestMapping
 	String mymessage(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			if (null == user) {
 				return "login";
 			} else {
@@ -400,7 +400,7 @@ public class UserController {
 	String commentstheme(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			String op = Util.toString(request.getParameter("op"));
 			String themeId = Util.toString(request.getParameter("themeId"));
 			String commentsId = Util.toString(request
@@ -473,7 +473,7 @@ public class UserController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {
-				User user = (User) request.getSession().getAttribute("user");
+				OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 				if (null == user) {
 					return "nofind";
 				}
@@ -545,7 +545,7 @@ public class UserController {
 		try {
 			String op = Util.toString(request.getParameter("op"));
 			if ("update".equals(op)) {
-				User user = (User) request.getSession().getAttribute("user");
+				OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 				if (null == user) {
 					return "nofind";
 				}

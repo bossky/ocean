@@ -3,7 +3,7 @@ package com.bossky.ocean.theme;
 
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 /**
  * 话题业务接口
  * @author daibo
@@ -53,20 +53,20 @@ public interface ThemeService {
 	 * @param user
 	 * @return
 	 */
-	public ResultPage<Collect> getCollectThemes(User user);
+	public ResultPage<Collect> getCollectThemes(OceanUser user);
 
 	/**
 	 * 我发布的话题列表
 	 * @param user
 	 * @return
 	 */
-	public ResultPage<Theme> getMyThemes(User user);
+	public ResultPage<Theme> getMyThemes(OceanUser user);
 	/**
 	 * 我的消息列表
 	 * @param user
 	 * @return
 	 */
-	public ResultPage<Message> getMessage(User user);
+	public ResultPage<Message> getMessage(OceanUser user);
 	/**
 	 * 通过Id获得标签
 	 * @param id
@@ -80,7 +80,7 @@ public interface ThemeService {
 	 * @param content 内容
 	 * @return
 	 */
-	public Theme createTheme(User user,String title,String content);
+	public Theme createTheme(OceanUser user,String title,String content);
 	/**
 	 * 通过Id找到话题
 	 * @param id

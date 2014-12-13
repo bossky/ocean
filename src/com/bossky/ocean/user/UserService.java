@@ -19,7 +19,7 @@ public interface UserService {
 	 *            角色
 	 * @return User对象
 	 */
-	public User addUser(String username, String password, Integer role);
+	public OceanUser addUser(String username, String password, Integer role);
 
 	/**
 	 * 查询用户
@@ -28,7 +28,7 @@ public interface UserService {
 	 *            用户名（邮箱）
 	 * @return
 	 */
-	public ResultPage<User> listUser(String username);
+	public ResultPage<OceanUser> listUser(String username);
 
 	/**
 	 * 获取单个用户对象
@@ -37,6 +37,6 @@ public interface UserService {
 	 *            用户ID
 	 * @return User对象
 	 */
-	public User getUser(String id);
+	public OceanUser getUser(String id);
 
 }

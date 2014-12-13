@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 登陆验证过滤器
@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		User user = (User) httpRequest.getSession().getAttribute("user");
+		OceanUser user = (OceanUser) httpRequest.getSession().getAttribute("user");
 		String url = httpRequest.getRequestURI();
 		String qStr = httpRequest.getQueryString();
 		if (null != qStr) {

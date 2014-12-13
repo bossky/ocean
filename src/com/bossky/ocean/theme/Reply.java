@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import com.bossky.data.business.Persistent;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.util.NameItem;
 
 /**
@@ -34,7 +34,7 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 	public static final NameItem STATUS_NORMAL = NameItem.valueOf(1, "正常");
 	public static final NameItem[] ALL_STATUS = { STATUS_SHIELD, STATUS_NORMAL };
 
-	public Reply(ThemeDi di, Comments comments, User user, String content) {
+	public Reply(ThemeDi di, Comments comments, OceanUser user, String content) {
 		super(di);
 		id = comments.getId().getId()
 				+ Long.toHexString(System.currentTimeMillis());
@@ -46,7 +46,7 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 		markPersistenceUpdate();
 	}
 
-	public Reply(ThemeDi di, Comments comments, User user, String content,
+	public Reply(ThemeDi di, Comments comments, OceanUser user, String content,
 			Reply reply) {
 		super(di);
 		id = comments.getId().getId()
@@ -65,7 +65,7 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 	 * 
 	 * @return
 	 */
-	public User getReplyUser() {
+	public OceanUser getReplyUser() {
 		return getBusinessDi().getUser(replayerId);
 	}
 
@@ -89,7 +89,7 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 	 * @param content
 	 * @return
 	 */
-	public Reply replyAgain(User user, String content) {
+	public Reply replyAgain(OceanUser user, String content) {
 		// 被屏蔽时不能被回复
 		if (isShield()) {
 			return null;
@@ -160,7 +160,7 @@ public class Reply extends Persistent<ThemeDi> implements Message {
 	}
 
 	@Override
-	public User getSender() {
+	public OceanUser getSender() {
 		return getReplyUser();
 	}
 

@@ -11,7 +11,7 @@ import com.bossky.data.business.Persistent;
 import com.bossky.ocean.ext.ResultPage;
 import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.di.ThemeDi;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.util.NameItem;
 
 /**
@@ -46,7 +46,7 @@ public class Theme extends Persistent<ThemeDi> {
 	public static final NameItem[] ALL_STATUS = { STATUS_SHIELD, STATUS_NORMAL };
 	public static final String REINDEX_LABEL = "L:";
 
-	public Theme(ThemeDi di, User user, String title, String content) {
+	public Theme(ThemeDi di, OceanUser user, String title, String content) {
 		super(di);
 		// 使用userId构造话题id
 		id = user.getId().getId()
@@ -160,7 +160,7 @@ public class Theme extends Persistent<ThemeDi> {
 	 * @param user
 	 * @return
 	 */
-	public synchronized int collectTheme(User user) {
+	public synchronized int collectTheme(OceanUser user) {
 		// 用户已收藏则不能重复收藏
 		if (isCollected(user)) {
 			return collectNum;
@@ -179,11 +179,11 @@ public class Theme extends Persistent<ThemeDi> {
 	 * @param user
 	 * @return
 	 */
-	public boolean isCollected(User user) {
+	public boolean isCollected(OceanUser user) {
 		return getBusinessDi().isCollected(this, user);
 	}
 
-	public synchronized int cannalCollected(User user) {
+	public synchronized int cannalCollected(OceanUser user) {
 		if (getBusinessDi().cancelCollect(user, this)) {
 			collectNum--;
 			markPersistenceUpdate();
@@ -196,7 +196,7 @@ public class Theme extends Persistent<ThemeDi> {
 	 * 
 	 * @param user
 	 */
-	public synchronized int praiseTheme(User user) {
+	public synchronized int praiseTheme(OceanUser user) {
 		// 已赞不能重复赞
 		if (isPraised(user)) {
 			return praiseNum;
@@ -215,7 +215,7 @@ public class Theme extends Persistent<ThemeDi> {
 	 * @param user
 	 * @return
 	 */
-	public boolean isPraised(User user) {
+	public boolean isPraised(OceanUser user) {
 		return getBusinessDi().isPraised(this, user);
 	}
 
@@ -224,7 +224,7 @@ public class Theme extends Persistent<ThemeDi> {
 	 * 
 	 * @param user
 	 */
-	public synchronized Comments commentTheme(User user, String content) {
+	public synchronized Comments commentTheme(OceanUser user, String content) {
 		// 被屏蔽后不能被评论
 		if (isShield()) {
 			return null;
@@ -269,7 +269,7 @@ public class Theme extends Persistent<ThemeDi> {
 	 * 
 	 * @return
 	 */
-	public User getUser() {
+	public OceanUser getUser() {
 		return getBusinessDi().getUser(userId);
 	}
 

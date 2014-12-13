@@ -3,7 +3,7 @@ package com.bossky.ocean.theme;
 import java.util.Comparator;
 
 import com.bossky.ocean.theme.di.ThemeDi;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 收藏业务类
@@ -13,7 +13,7 @@ import com.bossky.ocean.user.User;
  */
 public class Collect extends Operation {
 
-	public Collect(ThemeDi di, User user, Theme theme) {
+	public Collect(ThemeDi di, OceanUser user, Theme theme) {
 		super(di, user, theme);
 	}
 

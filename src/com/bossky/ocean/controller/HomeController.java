@@ -16,7 +16,7 @@ import com.bossky.ocean.ext.ResultPages;
 import com.bossky.ocean.theme.Label;
 import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.ocean.user.UserService;
 import com.bossky.util.Util;
 
@@ -47,11 +47,11 @@ public class HomeController {
 		themeRP.gotoPage(1);
 		request.setAttribute("labelList", labelRP);
 		request.setAttribute("themeList", themeRP);
-		ResultPage<User> rp = m_UserService.listUser("admin");
+		ResultPage<OceanUser> rp = m_UserService.listUser("admin");
 		rp.gotoPage(1);
 		if (null == rp.next()) {
-			User user = m_UserService.addUser("admin", "admin",
-					User.ROLE_ADMIN.id);
+			OceanUser user = m_UserService.addUser("admin", "admin",
+					OceanUser.ROLE_ADMIN.id);
 			_Logger.info("初始化用户:admin,密码:admin,类名:" + user);
 		}
 		return "index";
@@ -111,7 +111,7 @@ public class HomeController {
 		String username = Util.toString(request.getParameter("username"));
 		String password = Util.toString(request.getParameter("password"));
 		if (!Util.isEmpty(username) && !Util.isEmpty(password)) {// 是否为空
-			User user = m_UserService.getUser(username);
+			OceanUser user = m_UserService.getUser(username);
 			if (user == null) {// 用户账号不存在
 				response.getWriter().write("failuser");
 				return null;
@@ -156,7 +156,7 @@ public class HomeController {
 		try {
 			String id = Util.toString(request.getParameter("id"));
 			String op = Util.toString(request.getParameter("op"));
-			User user = (User) request.getSession().getAttribute("user");
+			OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 			Theme theme = m_ThemeService.getTheme(id);
 			if (null == theme) {
 				return "nofind";
@@ -189,7 +189,7 @@ public class HomeController {
 			if (Util.isEmpty(id)) {
 				return "nofind";
 			}
-			User user = m_UserService.getUser(id);
+			OceanUser user = m_UserService.getUser(id);
 			if (null == user) {
 				return "nofind";
 			}

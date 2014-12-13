@@ -24,7 +24,7 @@ import com.bossky.ocean.theme.Theme;
 import com.bossky.ocean.theme.ThemeService;
 import com.bossky.ocean.theme.di.ThemeDi;
 import com.bossky.ocean.user.Message;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 import com.bossky.ocean.user.UserService;
 import com.bossky.util.Util;
 
@@ -100,7 +100,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public Theme createTheme(User user, String title, String content) {
+	public Theme createTheme(OceanUser user, String title, String content) {
 		return new Theme(m_ThemeDi, user, title, content);
 	}
 
@@ -224,7 +224,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public ResultPage<Collect> getCollectThemes(User user) {
+	public ResultPage<Collect> getCollectThemes(OceanUser user) {
 		ResultPage<Collect> rp = ResultPages.toResultPage(collectDM.list(user
 				.getId().getId()));
 		// 默认按时间排序
@@ -234,7 +234,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public ResultPage<Theme> getMyThemes(User user) {
+	public ResultPage<Theme> getMyThemes(OceanUser user) {
 		ResultPage<Theme> rp = ResultPages.toResultPage(themeDM.list(user
 				.getId().getId()));
 		// 默认按时间排序
@@ -244,7 +244,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public ResultPage<Message> getMessage(User user) {
+	public ResultPage<Message> getMessage(OceanUser user) {
 		List<Message> list = new ArrayList<Message>();
 		ResultPage<Theme> trp = getMyThemes(user);
 		// 查找我的话题中的评论消息
@@ -308,7 +308,7 @@ public class ThemeServiceImpl implements ThemeService {
 
 	class ThemeDiImpl implements ThemeDi {
 		@Override
-		public boolean cancelCollect(User user, Theme theme) {
+		public boolean cancelCollect(OceanUser user, Theme theme) {
 			// 通过userId和themeId的组合找到收藏记录
 			String id = user.getId().getId() + Operation.ID_TYPE
 					+ theme.getId().getId();
@@ -347,7 +347,7 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 
 		@Override
-		public boolean isCollected(Theme theme, User user) {
+		public boolean isCollected(Theme theme, OceanUser user) {
 			// 通过userId和themeId的组合找到收藏记录
 			String id = user.getId().getId() + Operation.ID_TYPE
 					+ theme.getId().getId();
@@ -356,7 +356,7 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 
 		@Override
-		public boolean isPraised(Theme theme, User user) {
+		public boolean isPraised(Theme theme, OceanUser user) {
 			// 通过userId和themeId的组合找到赞记录
 			String id = user.getId().getId() + Operation.ID_TYPE
 					+ theme.getId().getId();
@@ -387,7 +387,7 @@ public class ThemeServiceImpl implements ThemeService {
 		}
 
 		@Override
-		public User getUser(String id) {
+		public OceanUser getUser(String id) {
 			return m_UserService.getUser(id);
 		}
 

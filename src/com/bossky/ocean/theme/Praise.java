@@ -1,7 +1,7 @@
 package com.bossky.ocean.theme;
 
 import com.bossky.ocean.theme.di.ThemeDi;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 赞业务类
@@ -11,7 +11,7 @@ import com.bossky.ocean.user.User;
  */
 public class Praise extends Operation {
 
-	public Praise(ThemeDi di, User user, Theme theme) {
+	public Praise(ThemeDi di, OceanUser user, Theme theme) {
 		super(di, user, theme);
 	}
 

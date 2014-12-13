@@ -8,7 +8,7 @@ import com.bossky.ocean.theme.Comments;
 import com.bossky.ocean.theme.Label;
 import com.bossky.ocean.theme.Reply;
 import com.bossky.ocean.theme.Theme;
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 业务依赖接口
@@ -57,7 +57,7 @@ public interface ThemeDi extends Di {
 	 * @param user
 	 * @return
 	 */
-	public boolean isCollected(Theme theme, User user);
+	public boolean isCollected(Theme theme, OceanUser user);
 
 	/**
 	 * 是否已赞
@@ -66,7 +66,7 @@ public interface ThemeDi extends Di {
 	 * @param user
 	 * @return
 	 */
-	public boolean isPraised(Theme theme, User user);
+	public boolean isPraised(Theme theme, OceanUser user);
 
 	/**
 	 * 标签的话题数
@@ -98,7 +98,7 @@ public interface ThemeDi extends Di {
 	 * @param id
 	 * @return
 	 */
-	public User getUser(String id);
+	public OceanUser getUser(String id);
 
 	/**
 	 * 取消收藏
@@ -106,7 +106,7 @@ public interface ThemeDi extends Di {
 	 * @param user
 	 * @param theme
 	 */
-	boolean cancelCollect(User user, Theme theme);
+	boolean cancelCollect(OceanUser user, Theme theme);
 
 	/**
 	 * 通过Id获取回复对象

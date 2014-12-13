@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bossky.ocean.user.User;
+import com.bossky.ocean.user.OceanUser;
 
 /**
  * 文件上传管理的控制器
@@ -54,7 +54,7 @@ public class FileController {
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@RequestMapping
 	String upload(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
+		OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 		if (null == user) {
 			return null;
 		}
@@ -178,7 +178,7 @@ public class FileController {
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@RequestMapping
 	String manager(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
+		OceanUser user = (OceanUser) request.getSession().getAttribute("user");
 		if (null == user) {
 			return null;
 		}
