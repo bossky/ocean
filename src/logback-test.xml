@@ -20,11 +20,8 @@
 			</Pattern>
 		</encoder>
 	</appender>
-	<logger name="com.bossky.ocean.filter.AccessFilter" level="DEBUG"
-		additivity="false">
-		<appender-ref ref="debug" />
-	</logger>
-
+	<!-- <logger name="com.bossky.ocean.filter.AccessFilter" level="DEBUG" additivity="false"> 
+		<appender-ref ref="debug" /> </logger> -->
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="stdout" />

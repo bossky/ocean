@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+	<!-- 密码是Md5加密 32位小写 -->
+	<user id="0x01" loginname="admin" password="21232f297a57a5a743894a0e4a801fc3">
+		<role id="0x01" name="管理员">
+			<right id="0x01" name="所有权限" rule="/*" />
+		</role>
+	</user>
+</root>

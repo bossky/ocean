@@ -143,7 +143,7 @@ public class AnnotionMapper<E> implements Mapper<E> {
 		} else if (objects.length == 1) {
 			Class<?> objecClass = objects[0].getClass();
 			try {
-				return getConstructor(clazz, objects[0].getClass());
+				return tryGetConstructor(clazz, objects[0].getClass());
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("类" + clazz.getName()
 						+ "没有带" + objecClass.getName() + "参数的构造函数");
@@ -154,7 +154,7 @@ public class AnnotionMapper<E> implements Mapper<E> {
 		} else {
 			for (Object o : objects) {
 				try {
-					return getConstructor(clazz, o.getClass());
+					return tryGetConstructor(clazz, o.getClass());
 				} catch (NoSuchMethodException e) {
 					//
 				}
@@ -173,11 +173,11 @@ public class AnnotionMapper<E> implements Mapper<E> {
 	 * @return
 	 * @throws NoSuchMethodException
 	 */
-	public static <E> Constructor<E> getConstructor(Class<E> clazz,
+	public static <E> Constructor<E> tryGetConstructor(Class<E> clazz,
 			Class<?> objclazz) throws NoSuchMethodException {
 		Constructor<E> c;
 		try {
-			c = clazz.getConstructor(objclazz);
+			c = clazz.getDeclaredConstructor(objclazz);
 			return c;
 		} catch (SecurityException e) {
 			//
@@ -187,7 +187,7 @@ public class AnnotionMapper<E> implements Mapper<E> {
 		// 接口对应的构造
 		for (Class<?> cl : objclazz.getInterfaces()) {
 			try {
-				c = clazz.getConstructor(cl);
+				c = tryGetConstructor(clazz, cl);
 				return c;
 			} catch (SecurityException e) {
 				//
@@ -200,13 +200,15 @@ public class AnnotionMapper<E> implements Mapper<E> {
 		Class<?> superClass = subClass.getSuperclass();
 		while (null != superClass && AnnotionParser.isSubClass(subClass)) {
 			try {
-				c = clazz.getConstructor(superClass);
+				c = clazz.getDeclaredConstructor(superClass);
 				return c;
 			} catch (SecurityException e) {
 				//
 			} catch (NoSuchMethodException e) {
 				//
 			}
+			subClass = superClass;
+			superClass = superClass.getSuperclass();
 		}
 		throw new NoSuchMethodException();
 

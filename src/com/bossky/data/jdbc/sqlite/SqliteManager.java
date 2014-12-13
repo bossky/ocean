@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.bossky.data.DataManager;
 import com.bossky.data.Mapper;
 import com.bossky.data.Meta;
-import com.bossky.data.annotation.Id;
 import com.bossky.data.jdbc.util.SQLUtil;
 import com.bossky.data.search.CompareCondition;
 import com.bossky.data.search.SearchCondition;
@@ -83,16 +82,9 @@ public class SqliteManager<E> implements DataManager<E> {
 				.append("` (");
 		Collection<Meta> col = mapper.metas();
 		Iterator<Meta> it = col.iterator();
-		String key = null;
+		String key = mapper.getKey().getName();
 		while (it.hasNext()) {
 			Meta m = it.next();
-			if (m.isAnnotationPresent(Id.class)) {
-				if (key != null) {
-					throw new IllegalArgumentException("一个实体类只能有一个主键");
-				}
-				key = m.getName();
-				continue;
-			}
 			sb.append(" `").append(m.getName()).append("` ");
 			sb.append(m.getType()).append(" ");
 			sb.append(" , ");
