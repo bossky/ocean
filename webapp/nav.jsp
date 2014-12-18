@@ -8,7 +8,7 @@
 <body>
 	<div class="comWidth">
 		<!-- banner -->
-		<div id="banner"><h1><a href="/">Ocean</a></h1></div>
+		<div id="banner"><h1><a href="/">Bossky</a></h1></div>
 
 		<!-- nav -->
 		<div class="nav mgt">

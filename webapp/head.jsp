@@ -39,7 +39,7 @@ function login(){
 			<c:if test="${sessionScope.user!=null}">
 			您好
 			<a href="/user/mytheme.jspx"><c:out value="${sessionScope.user.nickName }"/></a> 
-			，欢迎回来 Ocean ，一起技术交流！
+			，欢迎回来 bossky，一起技术交流！
 			</c:if>
 			</div>
 			<div class="fr">
